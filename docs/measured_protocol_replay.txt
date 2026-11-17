@@ -1,0 +1,67 @@
+Measured protocol replay adapter — 2026-11-03
+
+Purpose: chronological replay with actual RPT exposure retained. This is separate
+from rebuilt_lifetime.py, whose virtual diagnostic copy is intentionally discarded.
+No calibration, automatic AWS launch, physical validation-pass flag, or guessed
+70–85% SOC protocol is supplied.
+
+Run from repo:
+../.venv/Scripts/python.exe simulation/measured_protocol_replay.py --protocol reviewed_protocol.json --output ../work/literature_validation_20261103/NEW_REPLAY
+
+Protocol JSON requires:
+- cell_model, protocol_id, source_ref, initial_state_source: nonempty source identifiers.
+- family: SPMe or DFN; parameter_set: installed named set.
+- options: reviewed PyBaMM options with explicit thermal=isothermal or lumped.
+- mesh_points: one-phase uses x_n,x_s,x_p,r_n,r_p positive integer counts.
+  Explicit negative two-phase (particle phases=["2","1"]) uses
+  x_n,x_s,x_p,r_n_prim,r_n_sec,r_p. Mixed user r_n/phase-radial keys are rejected.
+  Chen2020_composite requires the two-phase configuration; OKane2022 rejects it.
+  JSON list-valued model options are converted to equivalent nested tuples for
+  PyBaMM without selecting or changing physical options automatically.
+- initial_soc: [0,1], initial_temperature_K: positive Kelvin.
+- rtol, atol: positive; max_wall_s: 1..3600.
+- optional parameter_overrides: finite numeric mapping of explicit PyBaMM updates.
+- steps: chronological list, at least one role=rpt (actual exposure).
+Each step requires role (ageing/rpt/calendar/diagnostic), source_ref, operation
+(current/voltage/rest), duration_s, period_s, temperature_K, termination list
+(including [] for timed steps), expected_termination (e.g. final time for timed
+steps). Current values use amperes with PyBaMM sign: positive discharge, negative
+charge; voltage values use volts. No unit or time-origin conversion is inferred.
+
+Actual ageing/calendar/RPT steps always advance the main terminal state. A
+diagnostic step receives a copied state and never advances the main state.
+Diagnostics are single steps only. A multi-stage copied RPT must not be encoded
+as several consecutive diagnostic entries: each would branch from the same main
+state. Use actual role=rpt for the experimental RPT chronology. Multi-stage copied
+diagnostics require a future explicit grouping API and separate tests.
+
+CLI freezes reviewed protocol into output/protocol.json and executes a worker
+with one wall limit including import/initialization. Windows child is hidden.
+On timeout subprocess.run terminates/waits for the worker; raw completed steps
+remain and report status is wall_limit. No resume of partial execution is offered.
+Each returned step saves raw NPZ before numerical and endpoint checks. Ending
+events must exactly equal expected_termination (generic substrings are rejected).
+Successful records retain ending events and signed capacity. Charge and
+discharge throughput are separately totaled by exposure role. This adapter does
+not silently compute EFC from combined throughput or discard RPT exposure.
+
+Lightweight tests: ten pass (explicit fields, actual RPT required, finite/bounded
+settings, physical terminal state propagation and isolated diagnostic branches,
+explicit charging-current units/sign, numeric overrides and unknown-field rejection).
+Composite runtime update: an actual installed PyBaMM26.8 SPMe solve with
+Chen2020_composite, two negative phases and current-sigmoid silicon OCP completed
+2s rest + 2s synthetic RPT rest. Full terminal-state vector forwarding and clock
+continuity were verified in work/validation_proposal_20261103/composite_runtime_v2/
+runtime_assessment.json. This is a synthetic software check, not an experimental
+RPT reproduction or M50T calibration. Failed first attempt remains in v1.
+PyBaMM26.8 retains an unused generic negative-particle geometry requiring r_n;
+the worker derives that bookkeeping resolution from r_n_prim and records
+effective_mesh_points and derived_mesh_aliases. Protocols still expose only the
+six physical keys. No ambiguous independent legacy r_n is accepted.
+Raw NPZ also retains _input_state_y and _terminal_state_y for direct state
+forwarding checks. Initial execution has an empty input-state vector.
+
+Before interpreting an empirical replay: independently confirm exact experimental
+steps and preconditioning, temperature meaning/history, capacities and time origins.
+Protocol identifiers document provenance but are not proof of physical equivalence.
+Choose comparison thresholds from measurements/project requirements before fitting.

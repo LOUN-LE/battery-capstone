@@ -1,0 +1,76 @@
+LG M50T bounded short SPMe validation
+
+Purpose
+Use frozen C-only BOL material parameters and a separately declared effective
+initial SOC to screen state propagation and short numerical sensitivity. This
+does not replay all measured ageing history, identify formation, certify the
+material parameters, or validate a physical SOH80 lifetime.
+
+Command from the capstone workspace root
+  .venv/Scripts/python.exe -X utf8 repo/simulation/validate_short_spme.py --initialization <parameters_effective_initialization.json> --output <new-output-directory>
+Optional --parameters must match the material_parameters_sha256 recorded in
+the initialization JSON. When omitted, material_parameters_file is used.
+New runs require anchor_policy_id=declared_rest_interior_last3_v1 and the
+three declared120s-interior source observations. The retired boundary-mixed
+last-three-row anchor is rejected before the PDE screen. Original boundary
+rows remain saved; they are not silently deleted from the measured data.
+
+Protocol
+1. Actual native prefix RPT: rest120s, charge1.5A to4.2V, CV to.05A, rest7230s,
+   discharge.5A to2.5V. All five phases propagate to the main physical state.
+2. Native F004 preparation: initialrest3600s, CC1.5A/CV4.2V, post-CVrest7200s,
+   discharge1.5A for1752s (fixed.730Ah), rest120s.
+3. Two fixed-Ah loops: discharge5A for525.6s and charge1.5A for1752s.
+4. A full five-phase RPT on ONE copied branch. Each phase carries the previous
+   copied phase's terminal state. The main state is checked unchanged afterward.
+
+The frozen measured_protocol_replay.replay_sequence defines each diagnostic
+step as a separate clone. Therefore the driver reuses it only for the main
+prefix and explicitly carries one terminal diagnostic branch. The frozen replay
+module is unchanged. Do not submit five standalone diagnostic steps and assume
+that their internal conditioning automatically propagates between them.
+
+Numerical cases
+x_n=x_s=x_p=10,r_n=r_p=20,rtol1e-7/atol1e-9 versus x20/r40,rtol1e-8/atol1e-10.
+Each starts from its own initial state and frozen material definition. No state
+is transferred across meshes. Each case is limited to600wall seconds. A SOH
+span<=1e-4percentage points is a practical short numerical screening threshold,
+not a certified error bound. Failure or time-limit artifacts remain available.
+
+Exposure accounting
+The report separates actual_initial_RPT, preparation, cycling_only and the
+copied diagnostic RPT. Cycling-only EFC uses loop charge+discharge divided by
+2times fixed model initialC/10capacity. This is a model numerical-probe axis.
+Preparation remains in the main state but is excluded from cycling-only EFC;
+the actual RPT and non-propagated diagnostic throughput are also kept separate.
+Two15%loops are about0.30217EFC, not2EFC. SOH change includes preparation and
+rest exposure and cannot be attributed to the two loops alone.
+
+Saved evidence
+declaration.json pins material, initialization, model config, driver, frozen
+replay and raw initialization observation hashes. Each step saves raw time,
+I,V,Q and input/terminal state arrays before endpoint/integral checks. Each case
+stores all observations, throughput, full capacities and copied-main fingerprints.
+report.json records numerical screening separately from physical validity.
+A worker's completed report cannot override a nonzero process exit code.
+Finite positive capacities, recomputed SOH, unchanged source hashes and the
+unchanged main diagnostic branch are required before comparing numerical cases.
+
+Historical 2026-11-03 result, retired initial anchor
+With oldv3material and effectiveinitialSOC0.3932481480269607:
+coarse Q0=4.831665405648581Ah,Qref=4.830561409940579Ah,SOH99.97715082450222%;
+fine Q0=4.831667581072436Ah,Qref=4.830563498573485Ah,SOH99.97714903849604%.
+Span1.78600618e-6pp passed the short threshold. Saved-raw independent checks
+confirmed20steps per case, exact input/output state links, actual RPT carry,
+unchanged main branch, and fixed.730Ah error<=2.59e-12Ah.
+Physical validation and EFC80 remain not evaluated. No AWS was started.
+
+2026-11-04 corrected-anchor result
+The last rest row already contains the next charging voltage while its recorded
+current/mode still say rest. Keeping the raw row but selecting the last three
+zero-current observations inside120.0s removes a14.019mV C anchor bias.
+With the same v3 material, effective initialSOC=.36966180929725573.
+The two-mesh SOH span is1.607379729762215e-6pp, below1e-4pp.
+This remains a0.30217EFC cycling-only numerical probe, not long-history SOH
+validation. See short_corrected_anchor_v1/report.json and source_executed.py
+in latest_spme_review_20261103/ for the actual executed source and results.

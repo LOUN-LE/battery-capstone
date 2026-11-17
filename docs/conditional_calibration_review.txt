@@ -1,0 +1,41 @@
+Conditional calibration result review — LG M50T
+
+Optimizer convergence is a software condition, not evidence of physical fit.
+The reviewer independently recomputes SOH from native capacity records, pins
+C/D input identity and native targets, checks the frozen parameter hash, and
+scores each cell against the user's immutable 1-A criteria. Search bounds are
+diagnosed in log10(multiplier), with a declared engineering proximity tolerance.
+
+Future conditional fit manifests must contain an explicit criteria reference:
+  "criteria": {"path": "criteria.json", "sha256": "<actual file SHA-256>"}
+Missing or changed criteria are rejected before importing the optimizer or
+launching a PDE candidate. The calibration targets and bounds are not expanded
+to force a desired SOH curve.
+
+The fitter freezes a C-only candidate for diagnostic D evaluation. A failed C
+curve is identified before D is opened; D never refits that candidate. The full
+assessment and evaluation history remain on disk. Failed curve limits or a
+near-bound optimum raise CalibrationNotAccepted and yield CLI exit code 2,
+separately from solver exceptions. A completed job cannot be mistaken for an
+accepted calibration merely because scipy reports gtol convergence.
+
+All assumed-history results remain ineligible for physical lifetime/ground-truth
+export, including numerically passing conditional curves. require_lifetime_ready
+explicitly refuses the conditional data kind even if a summary flag is altered.
+RPT diagnostics now retain SEI/plating capacity loss, LLI, LAM, temperature and
+model time. Those variables help discriminate mechanisms; they do not alone
+attribute measured fade or establish a lithium balance.
+
+Review existing AWS results without starting a new simulation:
+  python simulation/conditional_calibration_review.py --review fixtures/review.json --manifest manifest.json --criteria criteria.json --output assessment --require-lifetime-ready
+
+The review input is a JSON object with report and frozen keys. Its source must
+be the preserved AWS report/parameters_frozen documents. The command writes
+assessment.json and RPT_comparison.csv, then exits 2 when export is refused.
+An existing output directory is never silently overwritten.
+
+2026-11-03 v2 result: Dsolvent≈2.49999753e-21 m2/s (9.99999× nominal), C RMSE
+3.904736/max5.374136 pp, D RMSE4.276317/max6.274589 pp. Both fail 1-A. This is
+not evidence that a larger arbitrary coefficient is physically correct.
+Unknown exposure, model/recorded endpoint mismatch and long-history numerical
+convergence remain unresolved; no new SOH80 trajectory or accepted labels follow.

@@ -36,6 +36,7 @@ import pybamm
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import battery as B  # noqa: E402
+from verification_contracts import pilot_result_complete, strict_trajectory_valid
 
 CFG = json.loads((B.ROOT / "configs" / "cells_pilot9.json").read_text(encoding="utf-8"))
 OUT = Path(os.environ.get("BATTERY_OUTPUT_DIR", B.ROOT / "outputs")) / "pilot9"
@@ -91,24 +92,34 @@ def run_cell(cell_id: int, tolerance: dict):
             "Negative particle radius [m]", "SEI solvent diffusivity [m2.s-1]",
             "Lithium plating kinetic rate constant [m.s-1]", "Nominal cell capacity [A.h]")}
         S0 = c.initial_state()
+        initial_before = B.y_end(S0).copy()
         ref0 = c.reference_test(S0.last_state.copy())
         q0 = ref0["Q_trapz_Ah"]
         r10_0 = c.r10_test(S0)
         res["Q0"] = {"Q0_Ah": q0, "reference_test": ref0,
                      "integral_minus_cum_rel_q0": abs(ref0["Q_trapz_Ah"] - ref0["Q_cum_Ah"]) / q0}
         res["R10_initial"] = r10_0
+        res["initial_state_unchanged"] = np.array_equal(B.y_end(S0), initial_before)
         if not ref0["ok"]:
             res["failures"].append("reference_test_Q0_termination")
+        if not r10_0["ok"]:
+            res["failures"].append("R10_initial_termination")
+        if not res["initial_state_unchanged"]:
+            res["failures"].append("initial_diagnostics_changed_main_state")
         save(path, res)
 
         num = {}
         for label, kw in (("tol_x0.01", strict), ("mesh_x2", {**tolerance, "mesh_scale": 2.0})):
             cv = B.Cell(ov, **kw)
             Sv = cv.initial_state()
+            yv = B.y_end(Sv).copy()
             rq, rr = cv.reference_test(Sv.last_state.copy()), cv.r10_test(Sv)
             num[label] = {"Q0_Ah": rq["Q_trapz_Ah"], "dQ0_Ah": rq["Q_trapz_Ah"] - q0,
                           "R10_ohm": rr["R10_ohm"], "dR10_ohm": rr["R10_ohm"] - r10_0["R10_ohm"],
-                          "ok": rq["ok"] and rr["ok"]}
+                          "ok": rq["ok"] and rr["ok"],
+                          "main_state_unchanged": np.array_equal(B.y_end(Sv), yv)}
+            if not (num[label]["ok"] and num[label]["main_state_unchanged"]):
+                res["failures"].append(f"initial_numerical_diagnostic:{label}")
             del cv, Sv
         res["numerical_initial"] = num
         save(path, res)
@@ -143,7 +154,7 @@ def run_cell(cell_id: int, tolerance: dict):
         if info5["status"] != "efc_target":
             res["failures"].append(f"grading:{info5['status']}")
         else:
-            led_b, y_b = copy.deepcopy(B.ledger(rs5)), B.y_end(sol5)
+            led_b, y_b = copy.deepcopy(B.ledger(rs5)), B.y_end(sol5).copy()
             ref5 = c.reference_test(sol5.last_state.copy())
             r10 = c.r10_test(sol5)
             res["at_5EFC"] = {"Q5_Ah": ref5["Q_trapz_Ah"], "SOH_percent": 100 * ref5["Q_trapz_Ah"] / q0,
@@ -153,33 +164,60 @@ def run_cell(cell_id: int, tolerance: dict):
             if not (ref5["ok"] and r10["ok"]):
                 res["failures"].append("diagnostic_at_5EFC_termination")
             cs = B.Cell(ov, **strict)
+            strict_y, strict_ledger = B.y_end(sol5).copy(), copy.deepcopy(B.ledger(rs5))
             ref5s, r10s = cs.reference_test(sol5.last_state.copy()), cs.r10_test(sol5)
             res["at_5EFC"]["strict_from_same_state"] = {
                 "Q5_Ah": ref5s["Q_trapz_Ah"], "dQ5_Ah": ref5s["Q_trapz_Ah"] - ref5["Q_trapz_Ah"],
-                "R10_ohm": r10s["R10_ohm"], "dR10_ohm": r10s["R10_ohm"] - r10["R10_ohm"]}
+                "R10_ohm": r10s["R10_ohm"], "dR10_ohm": r10s["R10_ohm"] - r10["R10_ohm"],
+                "reference_test": ref5s, "R10": r10s,
+                "main_state_unchanged": np.array_equal(B.y_end(sol5), strict_y),
+                "ledger_unchanged": B.ledger(rs5) == strict_ledger}
+            strict_result = res["at_5EFC"]["strict_from_same_state"]
+            if not (ref5s["ok"] and r10s["ok"]):
+                res["failures"].append("strict_diagnostic_at_5EFC_termination")
+            if not (strict_result["main_state_unchanged"] and strict_result["ledger_unchanged"]):
+                res["failures"].append("strict_diagnostic_changed_main_or_ledger")
             del cs
         save(path, res)
 
         if cell_id == 4 and "at_5EFC" in res:
             cs = B.Cell(ov, **strict)
             Ss = cs.initial_state()
-            q0s = cs.reference_test(Ss.last_state.copy())["Q_trapz_Ah"]
-            sols, _, infos = operation(cs, Ss, cell_id, "grade_1.5A_strict", q0s, g["charge_current_A"],
+            strict_initial_before = B.y_end(Ss).copy()
+            ref0s = cs.reference_test(Ss.last_state.copy())
+            q0s = ref0s["Q_trapz_Ah"]
+            initial_unchanged = np.array_equal(B.y_end(Ss), strict_initial_before)
+            if not (ref0s["ok"] and initial_unchanged):
+                res["failures"].append("strict_trajectory_initial_diagnostic_invalid")
+            sols, rss, infos = operation(cs, Ss, cell_id, "grade_1.5A_strict", q0s, g["charge_current_A"],
                                        g["discharge_current_A"], float(g["update_interval_s"]),
                                        efc_stop=g["efc_stop"])
-            q5s = cs.reference_test(sols.last_state.copy())["Q_trapz_Ah"]
-            r10t = cs.r10_test(sols)["R10_ohm"]
-            res["trajectory_strict"] = {"status": infos["status"], "Q0_Ah": q0s, "Q5_Ah": q5s, "R10_ohm": r10t,
+            res["trajectory_strict"] = {"status": infos["status"], "Q0_Ah": q0s,
+                                        "Q0_reference_test": ref0s,
+                                        "initial_state_unchanged": initial_unchanged,
+                                        "wall_s": infos["wall_s"]}
+            if infos["status"] != "efc_target":
+                res["failures"].append(f"strict_trajectory:{infos['status']}")
+            else:
+                ys, ledger_s = B.y_end(sols).copy(), copy.deepcopy(B.ledger(rss))
+                ref_s, r10_s = cs.reference_test(sols.last_state.copy()), cs.r10_test(sols)
+                q5s, r10t = ref_s["Q_trapz_Ah"], r10_s["R10_ohm"]
+                res["trajectory_strict"].update({"Q5_Ah": q5s, "R10_ohm": r10t,
+                                        "reference_test": ref_s, "R10": r10_s,
+                                        "main_state_unchanged": np.array_equal(B.y_end(sols), ys),
+                                        "ledger_unchanged": B.ledger(rss) == ledger_s,
                                         "dQ5_Ah": q5s - res["at_5EFC"]["Q5_Ah"],
                                         "dR10_ohm": r10t - res["at_5EFC"]["R10"]["R10_ohm"],
-                                        "dSOH_pp": 100 * q5s / q0s - res["at_5EFC"]["SOH_percent"],
-                                        "wall_s": infos["wall_s"]}
+                                        "dSOH_pp": 100 * q5s / q0s - res["at_5EFC"]["SOH_percent"]})
+                if not strict_trajectory_valid(res["trajectory_strict"]):
+                    res["failures"].append("strict_trajectory_diagnostic_invalid")
     except Exception:
         res["failures"].append("exception")
         res["traceback"] = traceback.format_exc()
     res["wall_s"] = time.perf_counter() - t_cell
     res["memory"] = B.memory_mb()
     save(path, res)
+    return res
 
 
 def summarize():
@@ -188,6 +226,9 @@ def summarize():
         p = OUT / f"cell_{spec['id']}.json"
         cells[spec["id"]] = json.loads(p.read_text(encoding="utf-8")) if p.exists() else {"failures": ["missing"]}
     traj = cells.get(4, {}).get("trajectory_strict", {})
+    # Cell 4 supplies the shared trajectory-error proxy. Missing/failed evidence
+    # cannot silently become zero uncertainty for the other cells.
+    trajectory_available = 4 not in cells or strict_trajectory_valid(traj)
     for k, r in cells.items():
         a5 = r.get("at_5EFC", {})
         ctrl = r.get("control_check", {})
@@ -222,7 +263,11 @@ def summarize():
             "failures": r.get("failures"),
             "eps_Q_Ah": eps_q, "eps_R_mohm": eps_r * 1e3,
         })
-    ok = [x for x in rows if x["Q5_Ah"] is not None and x["R10_mohm"] is not None]
+    for row in rows:
+        row["usable_for_comparison"] = trajectory_available and pilot_result_complete(cells[row["id"]])
+        if not row["usable_for_comparison"]:
+            row["eps_Q_Ah"], row["eps_R_mohm"] = None, None
+    ok = [x for x in rows if x["usable_for_comparison"]]
     dist = {"Q5": [0, 0], "R10": [0, 0]}
     for a, b in itertools.combinations(ok, 2):
         dist["Q5"][1] += 1
@@ -232,12 +277,15 @@ def summarize():
         if abs(a["R10_mohm"] - b["R10_mohm"]) > a["eps_R_mohm"] + b["eps_R_mohm"]:
             dist["R10"][0] += 1
     summary = {"rows": rows, "distinguishable_pairs": dist,
+               "all_pass": len(ok) == len(CFG["cells"]),
+               "invalid_or_incomplete_cell_ids": [r["id"] for r in rows if not r["usable_for_comparison"]],
                "spread": {"Q5_Ah": [min(x["Q5_Ah"] for x in ok), max(x["Q5_Ah"] for x in ok)] if ok else None,
                           "R10_mohm": [min(x["R10_mohm"] for x in ok), max(x["R10_mohm"] for x in ok)] if ok else None,
                           "max_eps_Q_Ah": max((x["eps_Q_Ah"] for x in ok), default=None),
                           "max_eps_R_mohm": max((x["eps_R_mohm"] for x in ok), default=None)},
                "trajectory_strict_cell4": traj}
     save(OUT / "summary.json", summary)
+    return summary
 
 
 def main():
@@ -249,18 +297,25 @@ def main():
         raise SystemExit("verify_criteria did not pass; pilot run not started")
     tolerance = v["selected_tolerance"]
     if args.cell:
-        run_cell(args.cell, tolerance)
+        result = run_cell(args.cell, tolerance)
+        if not pilot_result_complete(result):
+            raise SystemExit('Pilot cell failed or incomplete; inspect cell result')
         return
     for spec in CFG["cells"]:
         p = OUT / f"cell_{spec['id']}.json"
         if p.exists():
             done = json.loads(p.read_text(encoding="utf-8"))
-            if "memory" in done and not done.get("failures"):
+            if pilot_result_complete(done):
                 continue   # completed without failure in an earlier run of this same code
         subprocess.run([sys.executable, str(Path(__file__).resolve()), "--cell", str(spec["id"])],
                        check=False)
-    summarize()
-    (OUT / "DONE").write_text("done", encoding="utf-8")
+    summary = summarize()
+    marker = OUT / "DONE"
+    if not summary["all_pass"]:
+        if marker.exists():
+            marker.replace(OUT / f"DONE.previous.{time.time_ns()}")
+        raise SystemExit('Pilot cells failed or incomplete; inspect summary.json')
+    marker.write_text("all pilot cells validated", encoding="utf-8")
 
 
 if __name__ == "__main__":

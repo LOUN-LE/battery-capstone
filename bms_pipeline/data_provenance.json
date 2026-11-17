@@ -1,0 +1,402 @@
+{
+  "schema": "imperial-m50t-measured-input-v1",
+  "source_url": "https://zenodo.org/records/10637534",
+  "adapter_sha256": "267e94b145a310c10ded13379b1d16bca0e0e9fcfe34b6294ee3017cc23cc799",
+  "columns": [
+    "cell_id",
+    "session_id",
+    "time_s",
+    "voltage_V",
+    "current_A",
+    "surface_temperature_C",
+    "source_row",
+    "phase"
+  ],
+  "source_row_definition": "One-based physical CSV/TSV line, with header on line 1; each file's provenance identifies its own source.",
+  "time_policy": "Preserve source decimal text; no resampling, rounding, rebasing, synthetic endpoint or gap filling.",
+  "current_policy": "Source positive charge/negative discharge in mA; canonical current_A = -source_mA/1000.",
+  "temperature_policy": "Measured cell surface temperature; blanks remain blanks and missing line numbers are reported. Not ambient or validated volume-average temperature.",
+  "prefix_policy": "Include original samples at or before the requested duration from the first source sample; do not interpolate an endpoint.",
+  "physical_model_validation_completed": false,
+  "cells": {
+    "C": {
+      "cell_id": "imperial_expt2_2_cell_C",
+      "source_sha256": {
+        "source/kirkaldy_expt2_cellC_RPT0_C10.csv": "d2215c01f4c09ede30551c0f7985b278da29b77ed87a4d6bff8597d7bbf18228",
+        "source/raw_protocol/NDK - LG M50 deg - exp 2,2 - rig 3 - 25degC - cell C - BoL - RPT0_long_01_MB_CA4.mpt": "da21d56c30f2474e03da107adb87fce0928f32ff0a6c237d5935e81a5b7f2649"
+      },
+      "requested_prefix_s": 600,
+      "initial_context": {
+        "match": {
+          "raw_source_line": 10534,
+          "processed_source_line": 2,
+          "time_difference_s": "4E-12",
+          "voltage_and_current_match": true
+        },
+        "phases": [
+          {
+            "phase": "preparation_step_0_rest",
+            "first_source_line": 2,
+            "time_start_s": "0.000000000000000E+000",
+            "last_source_line": 14,
+            "time_end_s": "1.200440057017840E+002",
+            "current_end_A": "0.0000000",
+            "voltage_end_V": "3.6623220E+000",
+            "control_end": "1.5000000E+003"
+          },
+          {
+            "phase": "preparation_step_1_constant_current",
+            "first_source_line": 15,
+            "time_start_s": "1.200460057018790E+002",
+            "last_source_line": 6467,
+            "time_end_s": "6.570056312060915E+003",
+            "current_end_A": "-1.5012003",
+            "voltage_end_V": "4.1998105E+000",
+            "control_end": "1.5000000E+003"
+          },
+          {
+            "phase": "preparation_step_2_constant_voltage",
+            "first_source_line": 6468,
+            "time_start_s": "6.570076312061865E+003",
+            "last_source_line": 9781,
+            "time_end_s": "9.881188469331246E+003",
+            "current_end_A": "-0.045157543",
+            "voltage_end_V": "4.1992984E+000",
+            "control_end": "4.2000546E+000"
+          },
+          {
+            "phase": "preparation_step_3_rest",
+            "first_source_line": 9782,
+            "time_start_s": "9.881226469333051E+003",
+            "last_source_line": 10502,
+            "time_end_s": "1.708118881131290E+004",
+            "current_end_A": "0.0000000",
+            "voltage_end_V": "4.1822867E+000",
+            "control_end": "0.0000000E+000"
+          },
+          {
+            "phase": "preparation_step_4_rest",
+            "first_source_line": 10503,
+            "time_start_s": "1.708119081131299E+004",
+            "last_source_line": 10533,
+            "time_end_s": "1.711130481274333E+004",
+            "current_end_A": "0.0000000",
+            "voltage_end_V": "4.1680312E+000",
+            "control_end": "-5.0000000E+002"
+          }
+        ],
+        "boundary_warning": "A final rest-labelled row may already carry the next load command/voltage; do not infer resting voltage from that row.",
+        "initial_soc": null,
+        "initial_soc_basis": "CC charge followed by approximately 4.2 V CV, about 2 h plus 30 s rest supports a nominal fully charged protocol reference; exact electrode states/SOC are not measured.",
+        "ageing_history": "Initial reference test after source break-in; not a pristine manufactured cell and not reconstructed complete prior ageing history."
+      },
+      "files": {
+        "full": {
+          "path": "data/cell_C_full.csv",
+          "sha256": "18cf83ee2b8293c67a48261c73d2fe51f22e345091726ff190d0222ab2ed7482",
+          "rows": 34797,
+          "source_row_first": 2,
+          "source_row_last": 34798,
+          "source_time_origin_s": "17111.306812743416",
+          "source_time_end_s": "51905.34446537145",
+          "observed_duration_s": "34794.037652628034",
+          "sample_interval_s": {
+            "minimum": 0.00200000008,
+            "median": 1.0000000475,
+            "maximum": 1.00200004759
+          },
+          "missing_temperature_source_rows": [],
+          "voltage_V": {
+            "minimum": 2.4999235,
+            "maximum": 4.1679921,
+            "first": 4.1679921,
+            "last": 2.4999235
+          },
+          "current_A": {
+            "minimum": 0.49952084,
+            "maximum": 0.5002106,
+            "first": 0.4999938,
+            "last": 0.49995438
+          },
+          "surface_temperature_C": {
+            "minimum": 23.896614000000003,
+            "maximum": 27.001960999999998,
+            "first": 24.385273,
+            "last": 26.599998
+          },
+          "trapezoidal_discharge_Ah": 4.832306804390944,
+          "source_path": "source/kirkaldy_expt2_cellC_RPT0_C10.csv"
+        },
+        "prefix": {
+          "path": "data/cell_C_prefix.csv",
+          "sha256": "973bb1eff5a3e92e77e33da07f0735fdbf306023058481cc74279f33dde3a7db",
+          "rows": 600,
+          "source_row_first": 2,
+          "source_row_last": 601,
+          "source_time_origin_s": "17111.306812743416",
+          "source_time_end_s": "17710.3068411944",
+          "observed_duration_s": "599.000028450984",
+          "sample_interval_s": {
+            "minimum": 1.000000047483,
+            "median": 1.0000000475,
+            "maximum": 1.000000047503
+          },
+          "missing_temperature_source_rows": [],
+          "voltage_V": {
+            "minimum": 4.1193585,
+            "maximum": 4.1679921,
+            "first": 4.1679921,
+            "last": 4.1193585
+          },
+          "current_A": {
+            "minimum": 0.49983615,
+            "maximum": 0.50013181,
+            "first": 0.4999938,
+            "last": 0.49991497999999995
+          },
+          "surface_temperature_C": {
+            "minimum": 23.896614000000003,
+            "maximum": 25.780313,
+            "first": 24.385273,
+            "last": 25.614798999999998
+          },
+          "trapezoidal_discharge_Ah": 0.08319097195969376,
+          "source_path": "source/kirkaldy_expt2_cellC_RPT0_C10.csv"
+        },
+        "preparation": {
+          "path": "data/cell_C_preparation.csv",
+          "sha256": "5f401fcaed6c0b31b94dcc86a49a9411bd293972cc34a791d346ee49f06c317b",
+          "rows": 10532,
+          "source_row_first": 2,
+          "source_row_last": 10533,
+          "source_time_origin_s": "0.000000000000000E+000",
+          "source_time_end_s": "1.711130481274333E+004",
+          "observed_duration_s": "17111.304812743330000",
+          "sample_interval_s": {
+            "minimum": 0.00200000009,
+            "median": 1.0000000474974,
+            "maximum": 10.0440004770644
+          },
+          "missing_temperature_source_rows": [],
+          "voltage_V": {
+            "minimum": 3.6201074,
+            "maximum": 4.2000074,
+            "first": 3.6203043,
+            "last": 4.1680312
+          },
+          "current_A": {
+            "minimum": -1.5021847,
+            "maximum": 0.0,
+            "first": 0.0,
+            "last": 0.0
+          },
+          "surface_temperature_C": {
+            "minimum": 23.58135,
+            "maximum": 28.783201,
+            "first": 24.109417,
+            "last": 24.385273
+          },
+          "trapezoidal_discharge_Ah": -3.155600108852938,
+          "source_path": "source/raw_protocol/NDK - LG M50 deg - exp 2,2 - rig 3 - 25degC - cell C - BoL - RPT0_long_01_MB_CA4.mpt"
+        }
+      }
+    },
+    "D": {
+      "cell_id": "imperial_expt2_2_cell_D",
+      "source_sha256": {
+        "source/kirkaldy_expt2_cellD_RPT0_C10.csv": "966166df526ea5cb1a69940f4fcd2045e5b9c00cd916868146b496558908ab69",
+        "source/raw_protocol/NDK - LG M50 deg - exp 2,2 - rig 3 - 25degC - cell D - BoL - RPT0_long_01_MB_CA5.mpt": "74cd341898f17e3c11009e2aff29b82b44b096f98eddf0adafb504406a212ba1"
+      },
+      "requested_prefix_s": 600,
+      "initial_context": {
+        "match": {
+          "raw_source_line": 10704,
+          "processed_source_line": 2,
+          "time_difference_s": "0E-11",
+          "voltage_and_current_match": true
+        },
+        "phases": [
+          {
+            "phase": "preparation_step_0_rest",
+            "first_source_line": 2,
+            "time_start_s": "0.000000000000000E+000",
+            "last_source_line": 14,
+            "time_end_s": "1.200420057016891E+002",
+            "current_end_A": "0.0000000",
+            "voltage_end_V": "3.6625350E+000",
+            "control_end": "1.5000000E+003"
+          },
+          {
+            "phase": "preparation_step_1_constant_current",
+            "first_source_line": 15,
+            "time_start_s": "1.200440057017840E+002",
+            "last_source_line": 6469,
+            "time_end_s": "6.572542312178994E+003",
+            "current_end_A": "-1.5023589",
+            "voltage_end_V": "4.1997781E+000",
+            "control_end": "1.5000000E+003"
+          },
+          {
+            "phase": "preparation_step_2_constant_voltage",
+            "first_source_line": 6470,
+            "time_start_s": "6.572560312179849E+003",
+            "last_source_line": 9951,
+            "time_end_s": "1.005215647745179E+004",
+            "current_end_A": "-0.045019314",
+            "voltage_end_V": "4.1998177E+000",
+            "control_end": "4.2000322E+000"
+          },
+          {
+            "phase": "preparation_step_3_rest",
+            "first_source_line": 9952,
+            "time_start_s": "1.005219847745379E+004",
+            "last_source_line": 10672,
+            "time_end_s": "1.725215681943344E+004",
+            "current_end_A": "0.0000000",
+            "voltage_end_V": "4.1829238E+000",
+            "control_end": "0.0000000E+000"
+          },
+          {
+            "phase": "preparation_step_4_rest",
+            "first_source_line": 10673,
+            "time_start_s": "1.725215881943353E+004",
+            "last_source_line": 10703,
+            "time_end_s": "1.728227482086397E+004",
+            "current_end_A": "0.0000000",
+            "voltage_end_V": "4.1674480E+000",
+            "control_end": "-5.0000000E+002"
+          }
+        ],
+        "boundary_warning": "A final rest-labelled row may already carry the next load command/voltage; do not infer resting voltage from that row.",
+        "initial_soc": null,
+        "initial_soc_basis": "CC charge followed by approximately 4.2 V CV, about 2 h plus 30 s rest supports a nominal fully charged protocol reference; exact electrode states/SOC are not measured.",
+        "ageing_history": "Initial reference test after source break-in; not a pristine manufactured cell and not reconstructed complete prior ageing history."
+      },
+      "files": {
+        "full": {
+          "path": "data/cell_D_full.csv",
+          "sha256": "f8daccd95601df69ec17a067b35fd52bd0fd8865bfcec411d1d87db95d490a69",
+          "rows": 34754,
+          "source_row_first": 2,
+          "source_row_last": 34755,
+          "source_time_origin_s": "17282.27682086406",
+          "source_time_end_s": "52034.02247148333",
+          "observed_duration_s": "34751.74565061927",
+          "sample_interval_s": {
+            "minimum": 0.00200000009,
+            "median": 1.0000000475,
+            "maximum": 1.00000004751
+          },
+          "missing_temperature_source_rows": [],
+          "voltage_V": {
+            "minimum": 2.4999981,
+            "maximum": 4.1674089,
+            "first": 4.1674089,
+            "last": 2.5001557
+          },
+          "current_A": {
+            "minimum": 0.49942465,
+            "maximum": 0.49989797999999996,
+            "first": 0.4996416,
+            "last": 0.49977966
+          },
+          "surface_temperature_C": {
+            "minimum": 24.182091,
+            "maximum": 26.475933,
+            "first": 24.355509,
+            "last": 25.63249
+          },
+          "trapezoidal_discharge_Ah": 4.823316504839452,
+          "source_path": "source/kirkaldy_expt2_cellD_RPT0_C10.csv"
+        },
+        "prefix": {
+          "path": "data/cell_D_prefix.csv",
+          "sha256": "baafa35019c191ba5fa9f061d558c37c7719879bb6167fe4b0d1630363fcfc3f",
+          "rows": 600,
+          "source_row_first": 2,
+          "source_row_last": 601,
+          "source_time_origin_s": "17282.27682086406",
+          "source_time_end_s": "17881.27684931504",
+          "observed_duration_s": "599.00002845098",
+          "sample_interval_s": {
+            "minimum": 1.000000047483,
+            "median": 1.0000000475,
+            "maximum": 1.000000047503
+          },
+          "missing_temperature_source_rows": [],
+          "voltage_V": {
+            "minimum": 4.1183825,
+            "maximum": 4.1674089,
+            "first": 4.1674089,
+            "last": 4.1183825
+          },
+          "current_A": {
+            "minimum": 0.49946410999999996,
+            "maximum": 0.49981909,
+            "first": 0.4996416,
+            "last": 0.49970078
+          },
+          "surface_temperature_C": {
+            "minimum": 24.182091,
+            "maximum": 25.7192,
+            "first": 24.355509,
+            "last": 25.530018
+          },
+          "trapezoidal_discharge_Ah": 0.08313733164325654,
+          "source_path": "source/kirkaldy_expt2_cellD_RPT0_C10.csv"
+        },
+        "preparation": {
+          "path": "data/cell_D_preparation.csv",
+          "sha256": "07442ef290b52f57a42ba54960764bc6c76bd79a0f7d2c7d1243609c45eebf88",
+          "rows": 10702,
+          "source_row_first": 2,
+          "source_row_last": 10703,
+          "source_time_origin_s": "0.000000000000000E+000",
+          "source_time_end_s": "1.728227482086397E+004",
+          "observed_duration_s": "17282.274820863970000",
+          "sample_interval_s": {
+            "minimum": 0.00200000009,
+            "median": 1.0000000474974,
+            "maximum": 10.0420004769695
+          },
+          "missing_temperature_source_rows": [],
+          "voltage_V": {
+            "minimum": 3.6166589,
+            "maximum": 4.2005658,
+            "first": 3.6167376,
+            "last": 4.167448
+          },
+          "current_A": {
+            "minimum": -1.5188916,
+            "maximum": 0.0,
+            "first": 0.0,
+            "last": 0.0
+          },
+          "surface_temperature_C": {
+            "minimum": 23.677603,
+            "maximum": 28.178577,
+            "first": 24.166325,
+            "last": 24.355509
+          },
+          "trapezoidal_discharge_Ah": -3.2012588940177715,
+          "source_path": "source/raw_protocol/NDK - LG M50 deg - exp 2,2 - rig 3 - 25degC - cell D - BoL - RPT0_long_01_MB_CA5.mpt"
+        }
+      }
+    }
+  },
+  "combined_prefix": {
+    "path": "data/initial_low_rate_prefix.csv",
+    "sha256": "aa6d04ade7a15fae8a73b259922dc5d88fd05672ada525a7a48b4df6ec379b57",
+    "rows": 1200,
+    "session_count": 2,
+    "ordering": "C session then D session. Independent time axes: group by cell_id/session_id before calculating elapsed time or integrating current.",
+    "source_mapping": "Resolve source_row against the processed source_path for the corresponding cell in cells.C/D.files.prefix."
+  },
+  "adapter_checks": {
+    "tests_run": 3,
+    "passed": true,
+    "coverage": "Exact clock/sign conversion, missing temperature preservation, invalid time/current rejection, source-only prefix selection and CSV round-trip."
+  },
+  "wall_seconds": 3.285752299998421,
+  "adapter_sha256_scope": "Original adapter used to derive the preserved data before its default path was made portable."
+}

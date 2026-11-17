@@ -1,0 +1,61 @@
+LG M50T empirical baseline comparison — 2026-11-03
+
+Scope
+This is an empirical comparison baseline, not a PyBaMM degradation calibration.
+Both models are declared before D evaluation: constant SOH100 and
+SOH = 100 - a*sqrt(calendar_days_since_RPT0/365) - b*ageing_EFC/1000,
+with a,b nonnegative and estimated from C only by nonnegative least squares.
+The C artifact is saved before D is loaded and its SHA-256 is unchanged afterward.
+No temperature coefficient, D refitting, model selection by D, or EOL extrapolation
+is performed. Previously inspected D summary statistics mean D is not newly blinded.
+
+Definitions
+Each cell uses its own measured RPT0 C/10 capacity for Q0 and SOH normalization.
+Ageing EFC is the summary charge+discharge Ah divided by2fixedQ0. The source says
+the summary ageing throughput excludes RPT/break-in. This definition is not the same
+as discharge-only EFC recomputed from the incomplete cycle table.
+Calendar input is RPT start date minus RPT0 start date, at day resolution.
+The source's Days of degradation field is kept separately; it is not assumed to
+represent total elapsed calendar time. Prediction uses known RPT/throughput schedules,
+so this benchmark is not a blind future-EOL forecast.
+
+Run from repo with capstone Python
+../.venv/Scripts/python.exe simulation/fit_empirical_baselines.py --benchmark ../work/external_m50_benchmark --output ../work/validation_proposal_20261103/NEW_BASELINE
+
+Evaluate a frozen model on a reviewed additional-condition manifest
+../.venv/Scripts/python.exe simulation/evaluate_frozen_baselines.py --model ../work/validation_proposal_20261103/baseline_v2/frozen_C_fit.json --manifest ../work/validation_proposal_20261103/baseline_D_manifest.json --output ../work/validation_proposal_20261103/NEW_EVALUATION
+
+Manifest paths are resolved against the command working directory. Each entry
+contains cell_id, summary_csv, source_receipt and condition with reviewed experiment/condition IDs,
+temperature_setpoint_C, SOC_percent and source_refs. Only the reviewed Experiment2
+SOC70–85 nominal25C and held-out10/40C conditions are accepted by this baseline
+adapter. Training C cannot appear as an independent evaluation case. Raw bytes must
+match one verified source-receipt member whose native cell/temperature agrees with
+the condition. C calibration bytes or duplicate raw sources under aliases are rejected.
+The frozen artifact pins the predictor implementation SHA-256. A changed predictor
+or missing predictor provenance requires a newly declared/frozen version before evaluation.
+
+Actual C-fit/D evaluation
+Empirical coefficients: a8.4842831896%p, b1.1420933093%p in the scaled formula above.
+C calibration RMSE0.1632574%p, maximum0.3447333%p.
+D held-out RMSE0.5684196%p, maximum1.0470724%p, bias+0.2809932%p at13nativeRPTs.
+Constant100 D RMSE6.2136605%p, maximum8.9977082%p.
+The empirical baseline passes basic1-A on D and fails challenge1-B.
+No D SOH80 crossing is observed; EOL accuracy is not evaluated.
+All additional cells were subsequently evaluated with the same C-only coefficients:
+A10C RMSE0.872224%p, maximum1.485294%p: basic passed.
+B10C RMSE1.609851%p, maximum2.489870%p: basic failed.
+E40C RMSE1.430484%p, maximum1.999060%p: basic failed (RMSE).
+F40C RMSE1.951410%p, maximum2.708929%p: basic failed.
+Stage1 same-condition passed, stage2 other-temperature failed. Every cell's EOL80
+is not evaluated because no threshold crossing was observed. No physical digital-twin
+validation follows from these empirical baseline results.
+
+Evidence
+work/validation_proposal_20261103/baseline_v2/: declared_experiment.json,
+frozen_C_fit.json, source/code hashes, native predictions CSVs and report.json.
+work/validation_proposal_20261103/baseline_scored_additional_v3/: final criteria-scored
+D/A/B/E/F result. reviewed_curves.png and reviewed_residuals.png display all cases.
+Earlier baseline_v1/scored_v1/additional_v1/additional_v2 are superseded provenance
+development outputs; preserve them but do not use them as the final validation receipt.
+Tests: test_fit_empirical_baselines.py(5), test_evaluate_frozen_baselines.py(8).

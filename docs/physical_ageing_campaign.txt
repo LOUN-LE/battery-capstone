@@ -1,0 +1,107 @@
+Physical ageing campaign backend — local, bounded, no AWS
+
+simulation/physical_ageing_campaign.py fits explicitly declared active SEI
+parameters to one calibration cell, freezes the selected parameters, then opens
+heldout campaigns. simulation/physical_campaign_inputs.py admits the input.
+Existing measured_protocol_replay.worker executes every actual RPT in sequence
+and forwards its terminal state. Every returned solve result is saved before
+numerical/event checks. If a solve throws or its worker times out before
+returning, that current step may have no raw samples; completed earlier steps
+remain. A failed record and worker log identify this limit.
+
+The current measured_history_v2 is NOT admissible: 163 unobserved gaps, one
+quarantined six-row run, and unknown exact controls/clock timezone remain.
+The gate examines the report, gap counts, clocks, source hashes and controls.
+Changing a caller's reviewed flag cannot admit that real history. No gap is
+converted to rest. The backend does not run a real ageing fit on this input.
+
+Campaign schema_version 1:
+- data_kind: measured or synthetic; explicit cell_id and condition_id.
+- protocol: the complete strict measured_protocol_replay protocol, including
+  every exposure, initial-state source, temperature, solver and physical model.
+- measurement_steps: ordered unique {rpt_id,step_index,kind}. A measurement
+  always points to an actual role=rpt, positive-current CC discharge step.
+- full_discharge_capacity adds cutoff_V and conditioning_steps containing
+  the immediately preceding charge CC, voltage hold, and rest indices.
+  Exact CC/CV/discharge events and coherent temperature/cutoffs are required.
+  Reference current, charge/CV endpoints and rest duration stay the same.
+- timed_software_probe is allowed only for synthetic, timed test exposures;
+  its normalized throughput ratio is not reference capacity or battery SOH.
+- targets: {path,sha256}, CSV with exact columns rpt_id,Qref_Ah and one row per
+  measurement. Capacities must be positive Ah. SOH is derived from the fixed
+  first target capacity; caller-provided SOH is not accepted.
+- measured additionally requires history_admission:{path,sha256} referring
+  to an admissible, source-bound chronology and exact control reconstruction.
+  Its admitted_protocols[cell_id] binds canonical protocol_sha256,
+  measurement_steps_sha256 and ordered_source_refs to this exact campaign.
+  Measured history rejects role=diagnostic: recorded GITT, pulse and OCV steps
+  must advance the actual state. Virtual diagnostic branches are separate tests.
+- measured source_identity currently supports only reviewed Kirkaldy2024
+  Expt2 performance summaries. It requires immutable summary/official-receipt
+  references, native cell/temperature/SOC identity, and recomputation of every
+  target capacity from the matching native RPT row. Unverified generic formats
+  are refused. Changed target CSV whitespace cannot hide the same underlying
+  summary/member as a new cell. Shared outer download receipts are allowed
+  for genuinely distinct C/D source members.
+  Receipt bytes must match the two previously verified original download
+  receipts. A newly manufactured official-URL/CRC/pass JSON is not accepted.
+  The first target must be native RPT0. Native total count, evaluated RPT ids,
+  and full_native_curve_evaluated are reported. A subset beginning at RPT0
+  stays partial and cannot pass the full native SOH curve criterion.
+
+Fit manifest requires calibration_campaign and heldout_campaigns immutable
+path/hash references; criteria path/hash; objective_scale_pp; all explicit
+calibration_parameters; optimizer_tolerances ftol,xtol,gtol; and budget max_model_calls,total_wall_s,
+per_candidate_wall_s,optimizer_max_nfev. Total fit wall is limited to one hour.
+Each parameter has name, lower, upper, initial, scale, difference_step_scaled,
+unit, source_ref. Currently only OKane2022 with explicitly enabled solvent-
+diffusion limited SEI supports SEI solvent diffusivity [m2.s-1] and Initial SEI
+thickness [m]. Bounds/initial values have no implicit physical default.
+Controls, geometry, temperature and frozen BOL overrides cannot be fitted.
+
+Optimization uses z=value/scale and custom bounded finite-difference probes;
+it never applies scipy's default absolute step to tiny SI coefficients.
+Every candidate runs one hidden, time-bounded PDE worker. Exact candidates
+are cached; model calls, failed output and actual perturbations are retained.
+A failed base/perturbation cannot be treated as a physical Jacobian sample.
+Parameter library, code, criteria, C data, bounds, scales and weights are
+frozen before fitting and rechecked. Heldout documents/data are opened after
+parameters_frozen.json is written. Repeated cells or raw target hashes reject
+fit/heldout leakage. Frozen BOL/model options remain unchanged for heldout.
+A converged fit freezes the actual optimizer solution.x. A lower-cost finite-
+difference probe never inherits convergence from another point. If the budget
+ends without convergence, the retained best valid candidate is explicitly a
+rescue candidate; backend_incomplete/nonzero exit prevents a completion claim.
+
+Model normalized capacity is 100*Qref(model)/Q0(model), where Q0 is the first
+actual model RPT. Target normalization independently uses fixed target Q0.
+Absolute model and target Q0, capacity error in Ah, normalized curve errors
+in percentage points and throughput by exposure role are all reported.
+Heldout Q0 never rescales predicted physical capacity. RPT identity maps to
+actual step positions; this module performs no EFC interpolation or EOL fit.
+
+Run:
+  .venv/Scripts/python.exe repo/simulation/physical_ageing_campaign.py
+      --manifest <frozen-campaign-manifest.json> --output <new-output-folder>
+
+Backend execution, optimizer convergence, Jacobian rank and physical validity
+are separate outputs. Every current report keeps physical_validation_complete
+and SOH_lifetime_validation_complete false. Basic curve limits alone cannot
+establish initial-state correctness, ageing mechanisms, unique parameters or
+generalization. EOL is not evaluated by this module.
+
+tools/verify_physical_campaign_runtime.py generates two full RPT targets with
+the existing model and runs a local synthetic recovery test at mesh5/10.
+It checks every raw full-state handover, exact RPT events, bounded physical
+probes and fixed Q0. Generated targets are synthetic. They provide no measured
+SOH or lifetime evidence, even if the toy optimizer recovers its source value.
+The synthetic runtime declares its numerical stopping tolerances before fit.
+Its xtol is a software stopping rule, not an uncertainty bound. Repeated-run
+noise and convergence of the recovered parameter are not established there.
+The v2 runtime demonstrates recovery from D=2.2e-22 toward generated truth
+2.5e-22. The later source-current smoke may warm-start from v2's C-only frozen
+parameters; that smoke is explicitly not an independent recovery experiment.
+The final runtime also includes an actual synthetic heldout PDE replay after
+parameter freeze. Its hand-constructed target reduces the second capacity by
+10%; that deliberately bad heldout outcome must remain visible without C
+refitting, physical capacity rescaling or changing the frozen parameters.

@@ -1,0 +1,55 @@
+LG M50T 기준 판정기 — 2026-11-03
+
+사용자가 제공한 제안서에서 합격 기준·검증 범위·지표 정의만 적용했다.
+수행 계획, 4주 일정, 권장 라이브러리는 구현 요구사항으로 적용하지 않았다.
+
+기준 파일: configs/empirical_acceptance.json
+판정 코드: simulation/score_empirical_validation.py
+
+기본1-A는 각 셀 SOH RMSE<=1.0%p AND 최대절대오차<=2.0%p다.
+한 셀의 실패를 전체 평균으로 숨기지 않는다. 도전1-B는0.5/1.0%p로
+별도 보고하며 필수 통과 조건이 아니다. 셀별 평균편향·SOH범위·RPT수도 기록한다.
+
+EOL은 처음 관측된80% 하향 교차의 두 점을 선형 보간하고 구간폭을 기록한다.
+실측이80%를 지나지 않으면 not_evaluated다. 측정 간격 허용폭은 제안서에
+숫자가 없으므로 max_observed_bracket_EFC=null로 보존했다. 관측 교차가
+있어도 간격 판단 근거가 없으면 EOL합격은 deferred다. 넓은 간격·재교차도
+유보하며 실측 EOL을 외삽하지 않는다. EFC단위가 확인되지 않은 days/cycles
+축으로 EFC80을 판정하지 않는다. 정당화된 관측이 있으면 기본오차10%,
+도전오차5%를 각각 평가한다. SOH통과와 EOL통과는 다른 필드다.
+
+score_cell(case, criteria, evidence_root) 입력:
+- cell_id, experiment_id, condition_id: 실제 자료에서 확인한 식별자.
+- axis_column: 두 point배열의 실제좌표열 이름.
+- measured/predicted: 해당 좌표열과 SOH_percent를 가진 시점별 dict배열.
+  예측은 모든 실제 RPT 좌표를 덮어야 하며 범위내 보간만 한다.
+- measured_metadata/predicted_metadata: empirical_validation.MATCH_FIELDS와
+  axis_unit. 의미상axis_definition과 실제axis_column을 구분한다.
+  EFC80평가의 axis_unit은 EFC여야 한다.
+- model: id,kind,artifact_path,artifact_sha256,fit_cell_ids,fit_condition_ids,
+  frozen_before_evaluation=true,retuned_on_validation=false,
+  heldout_initialization='RPT0_Q0_only' 또는 'no_heldout_inputs'.
+- kind는 physical / empirical_baseline / initial_SOH_baseline 중 하나.
+- stage2는 heldout_condition_axis='temperature' 또는 'SOC'가 추가로 필요하다.
+
+Frozen model파일의 실제SHA를 검증하고 fit/heldout셀이 겹치면 유보한다.
+파일해시는 평가한 바이트를 증명하지만 실제 동결시점·데이터사용과정을
+증명하지 않는다. 해당 연구 기록과 원자료 검토가 별도로 필요하다.
+
+score_suite(cases, criteria, evidence_root)는 같은 id/kind/파일해시의 모델만
+한 묶음으로 평가한다. 추정조건의 독립셀stage1과 미학습온도/SOC의stage2가
+각각 필요하다. stage2자료가 없으면 same_condition_only로 제한한다.
+condition_id문자열 변경만으로 실제 새 조건이 검증되지는 않으며 조건 출처를
+검토해야 한다. 동일한 실험/셀을 중복 기입해 표본수를 늘리면 유보한다.
+
+passed=유효한 곡선 평가가 두기본기준 모두만족, failed=유효하지만기준초과,
+not_evaluated=필수관측없음, deferred=입력/신원/측정구간의 문제다.
+전체출력은 metric_scoring_only이며 physical_validation_complete=false다.
+경험식이나초기SOH유지baseline통과로 물리 디지털트윈을 검증했다고 하지 않는다.
+stage2통과도 실제 평가한 조건에만 적용하며 모든SOC/온도/충전율로 일반화하지 않는다.
+
+CLI (repo 기준):
+../.venv/Scripts/python.exe simulation/score_empirical_validation.py --cases PATH/cases.json --evidence-root PATH --output PATH/new_score.json
+
+case JSON은 배열이다. 출력은 새경로만 허용한다. 판정 과정에서 AWS나 메일을
+사용하지 않으며 물리계수 추정이나 시뮬레이션을 수행하지 않는다.

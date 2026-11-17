@@ -1,0 +1,48 @@
+Frozen calibrated candidate: short numerical protocol check
+
+simulation/audit_calibrated_short_protocol.py accepts a completed, converged C-only
+BOL source folder with evaluated fine verification. It does not use legacyadvance
+or the20–80% SOC controller. No transport/degradation coefficient is modified.
+
+Run from repo:
+../.venv/Scripts/python.exe simulation/audit_calibrated_short_protocol.py --parameters-folder ../work/validation_proposal_20261103/physical_BOL_fit_v3 --output ../work/validation_proposal_20261103/NEW_NUMERICAL_CHECK
+
+Actual main exposure
+- Fresh initial SOC0.2 is an assumption, independently initialized per mesh.
+- Charge1.5A to4.2V, CV until0.05A, rest3600s.
+- Discharge5A for525.6s (730mAh), rest10800s.
+- Six loops: discharge5A for525.6s, charge1.5A for1752s.
+- Voltage safety cutoffs must not truncate the timed730mAh steps.
+- The preparation discharge plus six loop discharges total5.11Ah.
+- Preparation charge is included in the main charge counter. Its Ah depends on
+  the CC-CV endpoint, so the absolute counter is not silently called exactly1EFC.
+
+Numerical matrix
+- Mesh4/8, independently initialized with frozen BOL updates at1e-8/1e-10.
+- Aging rtol1e-6/1e-7, atol=rtol/100.
+- Q0/Qref virtual RPT rtol1e-8/atol1e-10, rest7230s.
+- Every solver receives exactly the same frozen parameter updates.
+- Q0/Qref use copies; main fingerprints must remain unchanged. These virtual
+  measurements are deliberately not a replay of actual physical RPT exposure.
+- Every main phase records termination, duration, signed capacity/current integral,
+  charge/discharge Ah and raw NPZ before its audit is accepted.
+
+The practical numerical screen requires four valid cases, same initial fingerprint
+within each mesh and maximum-minus-minimum SOH at most0.0001percentage points.
+It is not an error bound, a physical SOH curve test, or a lifetime/EOL acceptance.
+Both dischargeAh/fixedQ0 and absolute main Ah/(2fixedQ0) are reported explicitly.
+
+Controls and provenance
+- Source readiness wait at most600s; missing source is reported as not ready.
+- Four serial cases, at most900s each and3600s total.
+- Source SHA guards bind the frozen parameters, source BOL report, engine, configs
+  and numerical runner. The actual v1 evidence additionally has verified source
+  snapshots. Old model states or cross-mesh state projections are not reused.
+- Failure/timeout reports preserve available artifacts. A solver failure before
+  producing outputs may have no raw samples; the RPT helper returns raw only after
+  its own checks. Do not claim unavailable failed RPT traces were retained.
+- No cloud start, calibration, threshold adjustment or automatic team handoff occurs.
+
+Evidence: work/validation_proposal_20261103/calibrated_short_numerics_v1/.
+The final report.json, not this method description, determines completion/status.
+The source/quantity/unfinished-input helper tests are test_calibrated_short_protocol.py.

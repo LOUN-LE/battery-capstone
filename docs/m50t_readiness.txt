@@ -1,0 +1,39 @@
+LG M50T 로컬 완료 상태 평가
+
+simulation/assess_m50t_readiness.py는 이미 생성한 근거의 상태를 정리한다.
+새 승인 절차나 AWS 실행기, 코드 패키징 도구가 아니다.
+
+입력 manifest는 다음16개 역할 각각에 path와 sha256을 명시한다.
+proposal, criteria, software, BOL, BOL_post_audit, calibrated_numerics, numerical_declaration,
+history, baseline_scores, clock, clock_post_audit, EOL_data.
+physical_backend_report, physical_backend_assessment, physical_backend_experiment,
+physical_backend_parameters도 명시한다. 각각 fit/report.json, runtime_assessment.json,
+fit/experiment_frozen.json, fit/parameters_frozen.json에 해당한다.
+경로는 outputs/capstone 기준이며 외부 경로는 허용하지 않는다.
+누락, 해시 변경, 제안서-기준 불일치, 시각 감사-사후 감사 불일치를 거부한다.
+
+예: {"proposal": {"path": "work/validation_proposal_20261103/proposal.pdf", "sha256": "실제64자리SHA"}, ...}
+make_manifest(paths, root)는 검토한 절대 파일 경로들의 현재 해시를 고정하는 보조 함수다.
+해시는 실행 뒤 결과를 좋게 만들려고 갱신하지 않는다.
+
+실행(repo 기준):
+../.venv/Scripts/python.exe simulation/assess_m50t_readiness.py --manifest ../work/validation_proposal_20261103/readiness_inputs.json --output ../work/validation_proposal_20261103/readiness_v1
+
+출력 폴더는 새 경로여야 한다. 모든 입력 해시와 단계별 범위를 보고한다.
+소프트웨어 검사, 초기 용량/전압 맞춤, 짧은 수치 검사, 경험식 대조군의 통과를
+물리 SOH 열화·독립 수명 검증 통과로 바꾸지 않는다. 실측80% 도달 자료가 있어도
+동결된 물리 모델의 대응 예측이 없으면 EOL 검증은 미평가다.
+
+실측 검증을 완료한 상태는 아니므로 code_fully_complete와 release_ready는 false다.
+backend 구현과 합성 전체 RPT 실행 검사를 실제 셀의 열화 검증과 구분한다.
+현재 사용자 범위에서 AWS_launch_allowed_current_policy도
+항상 false다. CLI 종료코드2는 이 미완료 상태를 성공 기동 신호로 쓰지 않기 위한 것이다.
+이는 현재 단계의 상태 평가기이며 미래 backend를 인증할 수 있는 범용 production gate가 아니다.
+향후 실측 열화 추정·독립 검증을 완료하면 별도 근거와 검사로 평가기를 확장해야 한다.
+
+소프트웨어 검사 영수증은 source_hashes_stable=true와 현재 .py/config 바이트가
+source_hashes와 일치해야 하며 평가기 자신도 검사 소스 목록에 있어야 한다.
+backend 보고서→동결 파라미터→동결 실험 SHA를 연결하고, 실행 평가의 호출 수·
+optimizer·복구 파라미터를 대조한다. optimizer 완료와 실제 전체 RPT 검사 통과가
+필요하다. v1 실행 후 출처 검증 코드가 바뀌었다면 historical_synthetic_runtime으로
+표시하며 현재 코드의 실행 검증 통과로 사용하지 않는다. 최종 v2 등 재실행 근거가 필요하다.

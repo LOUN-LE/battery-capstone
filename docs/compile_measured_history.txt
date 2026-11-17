@@ -1,0 +1,44 @@
+LG M50T C/D 실측 시간 이력 컴파일러
+
+simulation/compile_measured_history.py는 phase2 timeline.csv와 전체 RPT시계감사
+clock_mappings.csv/clock_audit_report.json을 연결한다. 기본은--require-complete이며
+전체원본126개와MPT쌍98개의감사가끝나지않으면이력구성을거부한다.
+--allow-incomplete는 진단출력용일뿐 재생승인을 뜻하지 않는다.
+
+실행(repo기준):
+../.venv/Scripts/python.exe simulation/compile_measured_history.py --require-complete --output ../work/validation_proposal_20261103/NEW_HISTORY
+
+정확한 cell+전체basename-stem으로MPR/MPT를연결한다. RPT번호와part번호만으로
+원점을공유하지않아BoL/Fast/short와BoL/Slow/long세션이섞이지않는다. origin과
+MPR-MPT시간차, MPR/MPT시간범위,검증상태는감사JSON과CSV에서일치해야한다.
+MPT절대시각은검증된MPT원점+해당파일의상대시각이다. 모든시각은기기의naive
+local-clock이며UTC나DST를추측해변환하지않는다.
+
+기존MPT가없었던28개MPR도다운로드감사의파일해시를검증하고common.py의
+read_mpr/split_runs/summarize_run으로실제측정모드·휴지·처리량을읽는다.
+단순파일범위만넣거나원점만알고관측전체를누락하지않는다. 원본은수정하지않는다.
+
+ordered_segments.csv/json은각run의처음/마지막실제표본을기록한다. 기존
+effective_duration은보존하되표본사이시간을자동으로메우는용도로쓰지않는다.
+연속raw행의run전환사이시간은inter_sample_transition_interval로분리한다.
+그외빈시간은unobserved_gap이며어떤경우에도자동휴지로변환하지않는다.
+coverage_intervals.csv는기록중첩도따로표시한다. source_interval_annotations.csv는
+예전timeline의구간주석보존사본으로,새시계연결후의활성공백판정은아니다.
+
+기록mode0/time0/current0/voltage0인6행은원래row범위·runID와함께격리상태로
+남긴다. 해당행에유효한물리시각·노화시간·처리량을할당하지않는다.
+처리량은ageing/rpt별signed run-net합계를진단목적으로보고한다. 이를완전한
+절대전류적분이나정확한EFC로바꿔부르지않는다. RPT실제이력도삭제하지않는다.
+
+최신실행 measured_history_v2:
+- 총36507run. 이전36423run에binary-only RPT84run을추가했다.
+- C:18293run,그중binary-only RPT42run.미관측공백82개/5639269.66s.
+- D:18214run,그중binary-only RPT42run.미관측공백81개/6510598.56s.
+- C/D합산163공백은두셀의합계다.한셀의기간으로해석하지않는다.
+- 표본전환간격36341개/3798.62s도별도보존하며기록중첩은0개다.
+- 원래6행이상구간을그대로남겼다.전체126/98시계감사는완료상태다.
+
+출력경로는새경로만허용하며입력/출력해시와컴파일러소스를보존한다. 입력파일이
+컴파일중바뀌면실행완료로표시하지않는다. exit0은컴파일완료일뿐모델검증통과나
+완전한실험재생허용을뜻하지않는다. 현재full_history_replay_admissible=false다.
+미관측노출·timezone/DST·프로그램종료조건·절대처리량범위가남아있다.

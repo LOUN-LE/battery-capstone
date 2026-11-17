@@ -1,0 +1,9 @@
+{
+  "schema": "pack_to_cell_config_v1",
+  "series_cells": 108,
+  "parallel_cells": 32,
+  "cell_basis_id": "m50t-pack-equivalent-cell",
+  "current_sharing": "equal_parallel_current_assumption",
+  "source": "Team M50T ROM simulation report. Topology is supplied separately from raw_input.csv and metadata.json.",
+  "physical_model_compatibility_verified": false
+}

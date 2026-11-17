@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import math
 import os
 from pathlib import Path
 import shutil
@@ -106,21 +107,114 @@ def terminate_tree(proc, grace_s=75, kill_wait_s=15):
     return result
 
 
-def compact_outcome(outcome, summary, root):
-    """Keep history on EBS; console/control JSON stay bounded at long horizons."""
-    summary = summary or {}
-    source = outcome or summary
-    ledger = source.get("ledger") or summary.get("ledger") or {}
-    diagnostics = source.get("diagnostics") or summary.get("diagnostics") or []
-    last = diagnostics[-1] if diagnostics else {}
+def finite_number(value):
+    """JSON evidence must contain a finite number, not a missing value or bool."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return None
+    return float(value) if math.isfinite(value) else None
+
+
+def record_efc(record):
+    record = record or {}
+    value = finite_number((record.get("ledger") or {}).get("efc"))
+    return value if value is not None else finite_number(record.get("last_valid_EFC"))
+
+
+def compact_outcome(outcome, summary, root, *, failure=None, runner_exit_code=None,
+                    stop_reason=None, supervisor_failed=False):
+    """Resolve final evidence without exporting history or trusting stale outcomes.
+
+    summary.ledger is the last committed checkpoint ledger. A prior verification
+    outcome can remain on resume, so progress and exit/failure evidence take
+    precedence over its status. SOH is always paired with its measurement EFC.
+    A failure is not relabelled as a capacity-EOL or a censoring observation.
+    """
+    outcome, summary, failure = outcome or {}, summary or {}, failure or {}
+    outcome_efc, summary_efc = record_efc(outcome), record_efc(summary)
+    outcome_wall = finite_number(outcome.get("elapsed_wall_s"))
+    summary_wall = finite_number(summary.get("elapsed_wall_s"))
+    stale = bool(outcome) and (
+        (outcome_efc is not None and summary_efc is not None and outcome_efc < summary_efc-1e-8)
+        or (outcome_wall is not None and summary_wall is not None and outcome_wall < summary_wall-1e-6))
+    incomplete = bool(outcome) and outcome_efc is None and outcome_wall is None
+    source = outcome if outcome and not stale and not incomplete else summary
+    # Prefer the committed checkpoint, even if an inconsistent outcome claims
+    # a later state. Minimal forced-stop outcomes may lack their own ledger.
+    committed = finite_number((summary.get("ledger") or {}).get("efc"))
+    if committed is None:
+        committed = summary_efc if summary_efc is not None else record_efc(source)
+    points = {}
+    unlocated = None
+    for record in (outcome, summary):  # A matching point in summary is authoritative.
+        for point in record.get("diagnostics") or []:
+            efc, soh = finite_number(point.get("efc")), finite_number(point.get("SOH_percent"))
+            if soh is None:
+                continue
+            if efc is None:
+                unlocated = point
+            elif committed is None or efc <= committed+1e-8:
+                points[efc] = point
+    ordered = [points[key] for key in sorted(points)]
+    last = ordered[-1] if ordered else (unlocated or {})
+    failure_wall = finite_number(failure.get("elapsed_wall_s"))
+    latest_wall = max((x for x in (outcome_wall, summary_wall) if x is not None), default=None)
+    current_failure = bool(failure) and (
+        (failure_wall is not None and (latest_wall is None or failure_wall >= latest_wall-1e-6))
+        or (failure_wall is None and runner_exit_code not in (0, 124)))
+    candidate = source.get("status")
+    guards = {"disk_guard":"resource_limit_censored:disk",
+              "memory_guard":"resource_limit_censored:system_memory",
+              "supervisor_wall_guard":"wall_time_censored"}
     eol = source.get("eol") or {}
+    threshold = finite_number(eol.get("threshold_percent"))
+    observed = finite_number(eol.get("observed_at_EFC"))
+    upper = finite_number(eol.get("interval_upper_EFC"))
+    crossing = next((point for point in ordered
+                     if threshold is not None and point["SOH_percent"] <= threshold), None)
+    valid_eol = (threshold is not None and 0 < threshold <= 100 and crossing is not None
+                 and committed is not None and observed is not None and observed <= committed+1e-8
+                 and upper is not None
+                 and abs(crossing["efc"]-observed) <= 1e-8
+                 and abs(upper-observed) <= 1e-8)
+    if supervisor_failed:
+        status = "supervisor_failed"
+    elif current_failure:
+        status = "failed"
+    elif stop_reason:
+        status = guards.get(stop_reason, stop_reason)
+    elif runner_exit_code is not None and runner_exit_code not in (0, 124):
+        status = "failed"
+    elif candidate == "eol_observed":
+        status = "eol_observed" if valid_eol and runner_exit_code in (None, 0) else "invalid_eol_evidence"
+    elif candidate == "max_efc_censored":
+        maximum = finite_number(source.get("max_EFC"))
+        status = ("max_efc_censored" if committed is not None and runner_exit_code in (None, 0) and
+                  (maximum is None or committed >= maximum-1e-8) else "invalid_termination_evidence")
+    elif candidate == "paused_verified":
+        status = candidate if runner_exit_code in (None, 0) else "runner_exit_nonzero_without_valid_outcome"
+    elif (candidate in ("wall_time_censored", "interrupted_censored")
+          or str(candidate).startswith(("resource_limit_censored:", "operating_condition_not_met:"))):
+        status = candidate
+    elif candidate == "failed":
+        status = "failed"
+    elif runner_exit_code == 0:
+        status = "runner_exit_zero_without_valid_outcome"
+    elif runner_exit_code is not None:
+        status = "runner_exit_nonzero_without_valid_outcome"
+    else:
+        status = candidate
+    censored = (status in ("max_efc_censored", "wall_time_censored", "interrupted_censored", "paused_verified")
+                or str(status).startswith(("resource_limit_censored:", "operating_condition_not_met:")))
     eol_keys = ("threshold_percent", "observed_at_EFC", "interval_lower_EFC",
                 "interval_upper_EFC", "exact_crossing_known", "rul_from_100_observation_EFC")
-    return {"status": source.get("status"),
-        "last_valid_EFC": source.get("last_valid_EFC", ledger.get("efc")),
-        "last_SOH_percent": last.get("SOH_percent"),
-        "eol": {key: eol[key] for key in eol_keys if key in eol} or None,
-        "elapsed_wall_s": source.get("elapsed_wall_s", summary.get("elapsed_wall_s")),
+    return {"status": status,
+        "right_censored": False if status == "eol_observed" else True if censored else None,
+        "outcome_ignored": "stale" if stale else "incomplete" if incomplete else None,
+        "last_valid_EFC": committed,
+        "last_SOH_percent": finite_number(last.get("SOH_percent")),
+        "last_SOH_measurement_EFC": finite_number(last.get("efc")),
+        "eol": {key:eol[key] for key in eol_keys if key in eol} if status == "eol_observed" else None,
+        "elapsed_wall_s": max((x for x in (outcome_wall, summary_wall, failure_wall) if x is not None), default=None),
         "checkpoint_path": str(root / "trajectory/checkpoint.pkl"),
         "outcome_path": str(root / "trajectory/outcome.json"),
         "summary_path": str(root / "trajectory/summary.json")}
@@ -226,10 +320,10 @@ def run(args):
                 time.sleep(5)
             exit_code = proc.wait(timeout=15)
         outcome = read_json(root / "trajectory/outcome.json")
-        compact = compact_outcome(outcome, read_json(root / "trajectory/summary.json"), root)
-        state.update(status=reason or ((outcome or {}).get("status")) or
-                     ("runner_exit_zero_without_outcome" if exit_code == 0 else "failed"),
-                     runner_exit_code=exit_code, outcome=compact)
+        compact = compact_outcome(outcome, read_json(root / "trajectory/summary.json"), root,
+            failure=read_json(root / "trajectory/FAILED.json"),
+            runner_exit_code=exit_code, stop_reason=reason)
+        state.update(status=compact["status"], runner_exit_code=exit_code, outcome=compact)
     except BaseException as exc:
         state.update(status="supervisor_failed", error=str(exc), traceback=traceback.format_exc())
         if proc is not None:
@@ -239,7 +333,16 @@ def run(args):
         if proc is not None and (termination is None or not termination.get("group_empty")):
             termination = terminate_tree(proc)
         state["termination"] = termination
-        state["outcome"] = compact_outcome(read_json(root / "trajectory/outcome.json"), read_json(root / "trajectory/summary.json"), root)
+        if proc is not None and "runner_exit_code" not in state:
+            state["runner_exit_code"] = proc.poll()
+        state["outcome"] = compact_outcome(read_json(root / "trajectory/outcome.json"),
+            read_json(root / "trajectory/summary.json"), root,
+            failure=read_json(root / "trajectory/FAILED.json"),
+            runner_exit_code=state.get("runner_exit_code"), stop_reason=reason,
+            supervisor_failed=state.get("status") == "supervisor_failed")
+        state["status"] = state["outcome"]["status"]
+        if reason:
+            state["stop_reason"] = reason
         if termination and (termination["kill_sent"] or not termination["group_empty"]):
             state["forced_termination"] = True
             state["final_state_note"] = "Last committed checkpoint is authoritative; final partial state is not validated."

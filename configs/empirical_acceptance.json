@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "criteria_id": "LG_M50T_1A_2A_20261103",
+  "source": {
+    "document": "LG_M50T_배터리_디지털트윈_검증기준_제안서.pdf",
+    "sha256": "f26ceed3762f5a96de4c77c5672099ba172ff1b9b98ae41f8e2241fecef71f8b",
+    "applied_sections": "Acceptance criteria, validation scope, SOH/EFC and scoring definitions only",
+    "execution_schedule_and_tool_recommendations_are_requirements": false
+  },
+  "basic": {"SOH_RMSE_pp_max": 1.0, "SOH_max_abs_error_pp_max": 2.0, "observed_EFC80_relative_error_percent_max": 10.0},
+  "challenge": {"SOH_RMSE_pp_max": 0.5, "SOH_max_abs_error_pp_max": 1.0, "observed_EFC80_relative_error_percent_max": 5.0},
+  "challenge_is_required": false,
+  "curve_policy": "Both limits must pass for every independent validation cell; no pooled average can hide a failed cell",
+  "eol": {
+    "threshold_SOH_percent": 80.0,
+    "interpolation_rule": "linear_first_observed_downward_crossing",
+    "max_observed_bracket_EFC": null,
+    "unset_bracket_policy": "If a crossing exists, defer EOL acceptance until measurement resolution is justified. Without a crossing, mark not_evaluated. Never extrapolate measured EOL."
+  },
+  "scope": {
+    "stage1": "Independent cell with same measured condition as calibration",
+    "stage2": "At least one independent untrained temperature or SOC condition with parameters fixed",
+    "unavailable_additional_condition": "Report same-condition-only scope; do not declare stage2 complete",
+    "generalization": "Only evaluated cells and conditions; no all-temperature, all-SOC or all-charge-rate claim"
+  },
+  "certification": "Metric scoring does not itself certify physical model validity, voltage, temperature, SOC, safety or pack performance"
+}

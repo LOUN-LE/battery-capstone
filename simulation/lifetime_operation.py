@@ -105,7 +105,27 @@ def run_segment(cell,sol,rs,cursor,current,target,diagnostics,on_diagnostic,on_p
   if checks['time_join_max_error_s']>1e-6: raise RuntimeError('Time connection mismatch')
   y=np.asarray(st.all_ys[-1],dtype=float)
   if not np.all(np.isfinite(y)): raise RuntimeError('Nonfinite solver state')
-  dif=B.snap_diff(B.snapshot(prev,-1),B.snapshot(st,0))
+  previous_snapshot=B.snapshot(prev,-1)
+  if getattr(cell,'connection_definition',None)=='physical-initial-state-v2':
+   from connection_initial_state import validated_difference
+   initial_snapshot=cell.connection_snapshot(st)
+   dif=validated_difference(previous_snapshot,initial_snapshot)
+   legacy=B.snap_diff(previous_snapshot,B.snapshot(st,0))
+   checks['connection_definition']=cell.connection_definition
+   checks['legacy_output_join_max_rel']=max(checks.get('legacy_output_join_max_rel',0.),
+    max((v.get('max_rel_diff',0.) for k,v in legacy.items() if k!='discharge_capacity'),default=0.))
+   legacy_jump=max((v.get('max_rel_diff',0.) for k,v in legacy.items() if k!='discharge_capacity'),default=0.)
+   if legacy_jump>1e-10:
+    checks['legacy_gate_exceedance_count']=checks.get('legacy_gate_exceedance_count',0)+1
+    events=checks.setdefault('legacy_gate_exceedances',[])
+    if len(events)<100:
+     events.append({'phase':phase,'previous_kind':ctx['prev_kind'],'kind':kind,
+      'efc':rs.efc,'start_t_s':rs.t_abs_s,'legacy_output_jump':legacy_jump,
+      'physical_initial_jump':max((v.get('max_rel_diff',0.) for k,v in dif.items() if k!='discharge_capacity'),default=0.)})
+   native=cell.last_connection_audit['native_first_output_sanity']
+   checks['native_first_output_error_ratio']=max(checks.get('native_first_output_error_ratio',0.),native['max_scaled_differential_error'])
+  else:
+   dif=B.snap_diff(previous_snapshot,B.snapshot(st,0))
   if any('status' in v for v in dif.values()): raise RuntimeError('Physical state shape mismatch')
   jump=max((v.get('max_rel_diff',0.) for k,v in dif.items() if k!='discharge_capacity'),default=0.)
   checks['physical_join_max_rel']=max(checks['physical_join_max_rel'],jump)

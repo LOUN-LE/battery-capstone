@@ -1,0 +1,4 @@
+# Preserve the input and output bytes referenced by the validation reports.
+bms_pipeline/data/*.csv -text
+bms_pipeline/evidence/*.csv -text
+examples/scenarios/*.csv -text

@@ -35,6 +35,7 @@ import pybamm
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import battery as B  # noqa: E402
+from verification_contracts import reference_variants_valid
 
 OUT = Path(os.environ.get("BATTERY_OUTPUT_DIR", B.ROOT / "outputs")) / "verify_criteria"
 OUT.mkdir(parents=True, exist_ok=True)
@@ -102,6 +103,7 @@ def part_a():
     v = {x["label"]: x for x in res["variants"]}
     res["criteria"] = {
         "reference_test_terminations_ok": ref["ok"],
+        "variant_reference_tests_valid": reference_variants_valid(res["variants"]),
         "integral_vs_cum": res["integral_minus_cum_rel_q0"] <= LIM["q_integral_rel"],
         "tolerance_x0.1": v["tol x0.1"]["rel_change_vs_default"] <= LIM["q0_tol_rel"],
         "tolerance_x0.01": v["tol x0.01"]["rel_change_vs_default"] <= LIM["q0_tol_rel"],
@@ -326,7 +328,8 @@ def main():
     flush()
     log(f"all_pass={REPORT.get('all_pass')} selected={REPORT.get('selected_tolerance')} "
         f"wall={REPORT['wall_total_s']:.1f} s")
+    return 0 if REPORT.get("all_pass") is True else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

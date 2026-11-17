@@ -1,0 +1,36 @@
+Reference failure raw capture — separate capability added after numerical-v1
+
+simulation/reference_failure_capture.py adds reference_with_failure_capture.
+It calls the original engine.reference and preserves its original return value.
+If reference raises, the helper records the original exception type, message,
+traceback, caller context and available simulator samples, then re-raises the same
+exception. A receipt path is attached as an exception note and attribute.
+
+Use in a future caller:
+measurement, raw = reference_with_failure_capture(engine, main,
+    output=NEW_UNIQUE_CAPTURE_FOLDER, rest_s=7230,
+    context={'role': 'virtual_reference_for_numerical_check'})
+
+The failure receipt distinguishes newly saved simulator output from a prior cached
+solution that survived a failed solve. Prior cached output is never labelled as
+samples produced by the current failure. Available Time,Current,Voltage,Discharge
+capacity fields are saved as NPZ, including invalid/nonfinite samples. Unavailable
+fields are listed explicitly. If no simulator samples exist, status says
+no_samples_available. A saved solution can include starting-solution context or
+completed phases with wrong endpoints; saving it does not make an RPT valid.
+
+Verification
+- Five unit tests cover original-exception preservation, new partial fields,
+  stale cached output, genuinely absent samples and unchanged success returns.
+- Actual PyBaMM failure test: tools/verify_reference_failure_capture_runtime.py.
+  It redirects one Engine instance's sim method to a real four-second, four-rest
+  experiment. The production Engine.reference method remains intact and rejects
+  its wrong endpoints. All8runtime checks passed; Time/I/V/Q samples are retained,
+  main state is unchanged, and core source SHA is unchanged. This is transparent
+  instance-local fault injection, not a nominal full RPT or a physical validation.
+- Runtime evidence: work/validation_proposal_20261103/reference_failure_runtime_v1/.
+
+The already completed calibrated_short_numerics_v1 execution used its original
+reference path, had no reference failures, and did not call this new helper.
+Its source/core/config/frozen-parameter proof was not modified or rerun. Do not
+retroactively claim that numerical-v1 used the new failure-capture path.

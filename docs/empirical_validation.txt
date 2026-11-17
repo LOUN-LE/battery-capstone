@@ -1,0 +1,47 @@
+LG M50T 실측 검증 코드 — 2026-11-03
+
+simulation/empirical_validation.py는 공개 C/10 RPT 용량으로 SOH를 재계산한다.
+분모는 각 셀 RPT0의 고정 실측 용량이다. 요약 CSV의 Charge Throughput은
+이 자료에서 절대 충전+방전 ageing Ah의 합계다. 저자의 집계 범위에서
+EFC = 해당 절대 통과전하 / (2 고정 Q0)는 정식 정의이며 방전 EFC의 근사가 아니다.
+canonical 열 이름은 absolute_ageing_EFC다. approximate_EFC는 과거 이름의
+동일 값 별칭으로만 남겼으며 deprecated로 기록한다.
+Ageing Cycles를 EFC로 바꾸어 부르지 않는다.
+
+실행 (repo 기준):
+../.venv/Scripts/python.exe simulation/empirical_validation.py --benchmark ../work/external_m50_benchmark --output ../work/literature_validation_20261103/NEW_TARGETS
+
+새 출력 폴더만 허용하며 실측 원본은 수정하지 않는다. report.json에 입력
+SHA-256, SOH 정의, absolute ageing EFC 정의, 검열된 EOL과 미완료 사항을 저장한다.
+axis_is_approximate=false는 정의의 의미를 표시하며 측정 정밀도나 원자료의
+완전성을 보증하지 않는다. RPT/break-in을 제외한 저자 요약 집계 범위를 따른다.
+C는 추정 후보, D는 독립 검증 후보이며 아직 매개변수 추정은 수행하지 않았다.
+
+compare_curves는 셀·시험·온도·RPT·SOH·축·시간 원점의 식별 정보 일치를
+요구한다. 식별 정보는 실제 프로토콜 검토로 작성해야 하며 문자열 일치만으로
+과학적 동등성을 보장하지 않는다. 모든 실측 시점에서 예측값의 범위 내
+보간만 수행한다. 예측이 실측 범위를 덮지 않으면 오차를 계산하지 않는다.
+RMSE와 최대 절대 오차 단위는 %p이며 물리 검증 통과 여부를 자동 결정하지 않는다.
+
+현재 실제 실행:
+- C/D 각각 RPT0~12, 13개 관측에서 계산 완료.
+- 마지막 SOH C91.8094269%, D91.0022918%.
+- 6204 ageing cycles는 absolute ageing EFC C943.7111, D945.5127과 다르다.
+- 불완전한 cycle table의 방전 Ah/Q0는 다른 집계 정의다. 그 값과의 차이를
+  곧바로 absolute EFC의 근사 오차로 해석하지 않는다. 누락·불완전 counter의
+  품질 점검은 여전히 미해결이며 의미 수정으로 해소된 것으로 표시하지 않는다.
+- 두 셀 모두 SOH80 미관측. EOL은 우측 검열이며 선형 외삽하지 않는다.
+- 독립 검사6개 통과: 고정 Q0/단위·축, 검열, 교차 구간, 잘못된 입력,
+  조건 불일치/범위 부족, 비유한 예측 거부.
+
+AWS 실행 전 필수 작업 (사용자 최신 지시):
+1. 정확한 LG M50 셀 종류 및 시험 SOC·전류·온도·휴지/RPT 조건 확인.
+2. 방전량 기반 EFC 및 RPT 절대 시각 연결의 미확인 항목 해소.
+3. 추정용/독립 검증용 자료를 먼저 분리하고 평가 기준을 추정 전에 정함.
+4. 수정한 물리 프로필의 초기 용량/전압·열화 기작·메시/허용오차 확인.
+5. SOH 곡선과 가능하면 LLI/LAM/저항을 독립 실측에 대조.
+6. SOH80 관측 실측의 확보 여부 확인. 미확보면 EOL 예측의 검증 한계를 명시.
+7. 위 결과를 사용자에게 보고한 후 새 AWS 수명 실행. 이전 셀4는 재사용하지 않음.
+
+현재는 실측 목표 추출·비교 함수 준비까지만 완료했으며 물리 검증 미완료다.
+계수 확대, 현재 baseline의 물리 옵션 변경, AWS 기동은 이번 수정에 포함하지 않았다.
