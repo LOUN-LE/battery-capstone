@@ -2,3 +2,7 @@
 bms_pipeline/data/*.csv -text
 bms_pipeline/evidence/*.csv -text
 examples/scenarios/*.csv -text
+examples/team_single_cell_20261117/** -text
+experiments/team_six_outputs_20261117/*.py text eol=lf
+experiments/team_six_outputs_20261117/README.md text eol=lf
+experiments/team_six_outputs_20261117/evidence/** -text

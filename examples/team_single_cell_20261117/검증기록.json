@@ -1,0 +1,62 @@
+{
+  "cell_id": "imperial_expt2_2_cell_D",
+  "rows": 591,
+  "columns": 20,
+  "degradation_groups": 6,
+  "degradation_columns": 8,
+  "selected_windows": 58,
+  "risk_label_available": false,
+  "scope": "coupled model output exercise; no measured degradation targets",
+  "selection_scope": "selected for review based on voltage forecast uncertainty and observed residuals",
+  "public_measurement_source": "https://zenodo.org/records/10637534",
+  "simulation_model": "SPMe with OKane2022, 25 C isothermal, negative particle cracking, both electrode stress-driven LAM",
+  "baseline_voltage_RMSE_mV": 4.423475917439381,
+  "paths_sha256": {
+    "02_머신러닝_후_디지털트윈_입력.csv": "0baeecc33a4d468cb16f12cedb2fd529e695f343685024e1791596c80cbc747d",
+    "selection_decisions.csv": "78d288e4f270209eb1fe55748747529cd54d715bc696a678472569fd49adbff7",
+    "coupled_model_rows.csv": "6b711a549457913450806744c25f75908b2b4fe22d8fde3f110a5f011469cac1",
+    "추가검토_셀1개_실측입력과_열화6종.csv": "f4f678e1c21c2b057d2f5098f4a31971cfc5e4adb48e7a1bb615e150494925de",
+    "CSV_열화6종_열매핑.csv": "4a8059435177732a0952d0df293f875e4cf4881d50202f92fc62d745c8cce3dc"
+  },
+  "measured_current_charge_Ah": 0.081888164590868,
+  "initial_SOC_assumption": 1.0,
+  "nominal_capacity_Ah": 5.0,
+  "final_SOC_estimate": 0.9836223670818264,
+  "replay_voltage_RMSE_mV": 14.317164757987946,
+  "model_report_sha256": "bfbe89cf4687940a9949a891aa62a2186194a34a811acdf4395301b04b9181fe",
+  "model_report_status": "completed",
+  "degradation_ranges": {
+    "sei_thickness_nm": [
+      5.198783804352652,
+      5.205947453315616
+    ],
+    "sei_loss_ah": [
+      0.0001734850502657292,
+      0.00017973691750940157
+    ],
+    "plated_li_mol_m3": [
+      27.12485339749386,
+      40.02159776877586
+    ],
+    "dead_li_mol_m3": [
+      0.8519434022624797,
+      0.8704302641912175
+    ],
+    "negative_crack_length_m": [
+      2.0000000000023204e-08,
+      2.0000000907927503e-08
+    ],
+    "lam_ne_pct": [
+      1.0244605164189124e-10,
+      1.7767044369065843e-06
+    ],
+    "lam_pe_pct": [
+      0.0002996566224169328,
+      0.0002996566224169328
+    ],
+    "negative_porosity": [
+      0.24939773758053713,
+      0.24956259965509262
+    ]
+  }
+}

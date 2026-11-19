@@ -1,0 +1,182 @@
+{
+  "started_utc": "2026-11-18T02:09:53.945266+00:00",
+  "status": "running",
+  "identity": {
+    "scenario": "both_active",
+    "gap_temperature_C": 25,
+    "model_sources": {
+      "<EXPERIMENT_WORKSPACE>\\work\\bms_pipeline_20261116\\configs\\frozen_model.json": "acca23b6854b0942fbc2e6ca9a23045704bd469f5de22d1cad3ad9b4640b9090",
+      "<EXPERIMENT_WORKSPACE>\\work\\bms_pipeline_20261116\\configs\\cell_calibration.json": "6007cf85bd9687867decd12c02483400803663ef82688d09b3cef2f2b3126509",
+      "<EXPERIMENT_WORKSPACE>\\work\\bms_pipeline_20261116\\data\\cell_D_preparation.csv": "07442ef290b52f57a42ba54960764bc6c76bd79a0f7d2c7d1243609c45eebf88",
+      "<EXPERIMENT_WORKSPACE>\\work\\team_six_outputs_20261117\\run_d_long_scenarios.py": "64ae62421aa61c068148719b4c8c6d2162e2fb2257e86f35fee0e657d83c629d",
+      "<EXPERIMENT_WORKSPACE>\\work\\team_six_outputs_20261117\\coupled_run.py": "e880f0e00bca5f30e1772d1576b842f877805c253a649b5a9e9b6a8dbe87522f",
+      "<EXPERIMENT_WORKSPACE>\\work\\bms_pipeline_20261116\\twin_runner.py": "6c75a95a4120efe5fbbbe68c1bd750b91f7de35da2cfe098ffb665210732bb02"
+    },
+    "route_sources": {
+      "<EXPERIMENT_WORKSPACE>\\work\\team_six_outputs_20261117\\d_long_route.py": "08d4a3f757a619f9577c0064308e1d6bb4e7d62ef726750e95568fd0ebc16074",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_exposure_scenarios_v1\\D_all_unresolved_rest_25C.json": "70c27ec7e201a916c287c261498bfdda2d3c304e98982dc5bca7a2e1e94cc758",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\cell_D.json": "47acdd0e0742d3dc69f44fd037f56cb5972e7b973d0e1fd225ce22fae551ec18",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\metadata_control_probe_v2\\decoded_programs_raw.json": "b3bd7a9a013e27481cc316fb0c9abbd7d814c36d74566638faa08671539faf2b",
+      "<RESTORED_CAPSTONE>\\repo\\simulation\\run_corrected_history_trial.py": "dbf247092da1146ae35f293a01864db93eff8f0e5880b7f8d16b66c5fca2817e",
+      "<RESTORED_CAPSTONE>\\repo\\simulation\\run_exposure_scenario_smoke.py": "cb8efa0176a04806dcb5f4f9a78488467a35c59d53f781b9ded151a87a1867cf",
+      "<RESTORED_CAPSTONE>\\repo\\simulation\\initialize_spme_from_rest.py": "52ac91e5b364f1d27b16fd4b8f7163438e7d59ce98c280e3cab41e912a614afd",
+      "<RESTORED_CAPSTONE>\\repo\\simulation\\joint_spme_bol_fit.py": "7cabf62d2c692079fe18d52a48659310348ae2e895e99f53257deb51ba71a54f",
+      "<RESTORED_CAPSTONE>\\repo\\simulation\\native_program_contracts.py": "1fee7a542919cda7f831ab55ff5beaf6273f64be53d7713b02cb0aade889d1eb",
+      "<RESTORED_CAPSTONE>\\repo\\simulation\\conditional_history_inputs.py": "64a7819976c53eb3147e28e6ae3eee70a4f3e7cc914c020f9ec516af6fb73a35",
+      "<RESTORED_CAPSTONE>\\work\\external_m50_benchmark\\raw_protocol\\NDK - LG M50 deg - exp 2,2 - rig 3 - 25degC - cell D - BoL - RPT0_long_01_MB_CA5.mpt": "74cd341898f17e3c11009e2aff29b82b44b096f98eddf0adafb504406a212ba1",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_082.npz": "4750838e97c312ca541f6ec4b9f5135d2ea6b3cf5e74638b6ce88811831e83b9",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_083.npz": "d5103ea486998419b00d051fbe1aa01822b724d50397799188a0ff0df5933f96",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_084.npz": "b38bdc54577537e32cdd6abf07e294391e6575041c16b05155d6bc8e3f1ca469",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_085.npz": "4646dc91ef043625d69f897d19c54a6b6c6de5f264430c0730f9a874e384460d",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_086.npz": "ce8ad798273a0f672aa4e8952cd7669f73b82beb64d5a229c495ac114f41ad80",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_087.npz": "fb62cfb3ce7a0895a5bda53d1cca71132591d9d5bae2feb753fe1c0a4fc5373d",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_088.npz": "5a68012cc0b5bcf5baa4cc12c23677985e0ce86d4ebc2361e02e6d08cb9e693d",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_089.npz": "13d883112bf9d65fb1c190a3f5eaa46d87b09d57c7bd497427ce8f6574fb5a70",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_090.npz": "00c2f3695a973332e20ea2d611f919a801ab8ef89aecfb3e3b7140714654d691",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_152.npz": "1b8759418b0dfeaab89d1ca5dd8812950b3b21e3033331781f08dc088e2fc842",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_145.npz": "3bc0105c336ff194e95473520a76286edd68b9051e7791a8104331d627d5ccc4",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_146.npz": "4c4de9e9863e3c9c4b2cdbe3cc58f71045890fe23da08521e04e125a728106da",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_147.npz": "f16b802ae2d2bc0ae59ecd7b49bc07f83a79e4342b84a73db9237c3fb3183435",
+      "<RESTORED_CAPSTONE>\\work\\validation_proposal_20261103\\latest_spme_review_20261103\\raw_mode_reconstruction_v1\\raw_sources\\raw_105.npz": "da3c93b6bb67f4d8232f6dbf753f5775c340de8a392840c8b5238defc2fe8506"
+    },
+    "mesh": {
+      "x_n": 10,
+      "x_s": 10,
+      "x_p": 10,
+      "r_n": 20,
+      "r_p": 20
+    },
+    "rtol": 1e-07,
+    "atol": 1e-09,
+    "pybamm": "26.8.0.0"
+  },
+  "cell_id": "D",
+  "scope": "conditional RPT0 through RPT1 replay",
+  "route_summary": {
+    "cell_id": "D",
+    "gap_temperature_C": 25,
+    "planned_steps": 3940,
+    "step_counts": {
+      "native_RPT_control": 922,
+      "assumed_exposure": 1971,
+      "recorded_rest_controller": 8,
+      "eligible_recorded_current": 1039
+    },
+    "duration_us_by_kind": {
+      "native_RPT_control": 598419199072,
+      "assumed_exposure": 584354480083,
+      "recorded_rest_controller": 14910480724,
+      "eligible_recorded_current": 1194851518479
+    },
+    "measurements": {
+      "0": {
+        "index": 10,
+        "source_ref": "F049#r00005",
+        "capacity_Ah": 4.823331466949698
+      },
+      "1": {
+        "index": 3939,
+        "source_ref": "F056#r00005",
+        "capacity_Ah": 4.718293414871289
+      }
+    },
+    "clock_basis": "Naive instrument clock; no timezone/DST conversion",
+    "recorded_temperature_scope": "Native cell-surface temperature has no implied ambient boundary",
+    "gap_policy": "Unobserved intervals use the scenario's zero-current rest and temperature",
+    "physical_validation_complete": false,
+    "measured_history_admissible": false,
+    "zero_span_annotations": 0
+  },
+  "initial_state": {
+    "target_voltage_V": 3.6167114333333337,
+    "initial_equilibrium_model_voltage_V": 3.6167114333334203,
+    "negative_stoichiometry": 0.3596084389780986,
+    "positive_stoichiometry": 0.6672518820966299,
+    "initial_concentrations": {
+      "Initial concentration in negative electrode [mol.m-3]": 11914.90640866134,
+      "Initial concentration in positive electrode [mol.m-3]": 42106.262767825734
+    },
+    "particle_lithium_Ah": 7.094611861277718,
+    "inventory_residual_Ah": 0.0,
+    "initial_soc_remapping_used": false
+  },
+  "initial_anchor": {
+    "source_rows": [
+      11,
+      12,
+      13
+    ],
+    "source_times_s": [
+      90.00000427477062,
+      100.0000047497451,
+      110.0000052247196
+    ],
+    "voltage_V": [
+      3.6166589,
+      3.6168165,
+      3.6166589
+    ],
+    "rule": "last three zero-current observations inside the declared initial 120 s rest",
+    "assumption": "homogeneous initial concentration; 120 s rest does not identify equilibrium or prior gradients"
+  },
+  "planned_steps": 3940,
+  "attempt_count": 1,
+  "experimental_conditions": {
+    "recorded_phase_model_temperature_C": 25,
+    "gap_assumption": "0 A rest at declared gap temperature; not observed",
+    "mechanism_switch_step": 11,
+    "ageing_rates_paused_after_RPT0": {
+      "sei_growth": false,
+      "plating_reactions": false
+    }
+  },
+  "completed_steps": 1867,
+  "elapsed_s": 474.54769790000864,
+  "measurements": [
+    {
+      "index": 10,
+      "kind": "native_RPT_control",
+      "source_ref": "F049#r00005",
+      "observed_duration_s": 34751.74565,
+      "temperature_C": null,
+      "status": "solved",
+      "duration_s": 34827.1346254456,
+      "throughput_net_Ah": 4.8371020313118684,
+      "start_model_s": 16048.376253258411,
+      "end_model_s": 50875.51087870401,
+      "termination": "event: Voltage < 2.5 [V] [experiment]",
+      "voltage_min_V": 2.4999999999998836,
+      "voltage_max_V": 4.169311871220685,
+      "rpt_id": 0,
+      "capacity_Ah": 4.8371020313118684,
+      "curve_file": "RPT0.npz",
+      "end_channels": {
+        "sei_li_consumed_Ah": 0.0005288651766609323,
+        "plated_li_mol_m3": -8.193292313329845e-09,
+        "dead_li_mol_m3": 1.1024119518020865,
+        "lam_ne_pct": 0.00018107553250956698,
+        "lam_pe_pct": 0.0002987096112576637,
+        "lli_pct": 0.011292510994309168
+      }
+    }
+  ],
+  "last_batch_s": 199.91936080000596,
+  "last_step": {
+    "index": 1866,
+    "kind": "assumed_exposure",
+    "source_ref": "F008#r00015 -> F008#r00016",
+    "observed_duration_s": 0.004,
+    "temperature_C": 25.0,
+    "status": "solved",
+    "duration_s": 0.00399999984074384,
+    "throughput_net_Ah": 0.0,
+    "start_model_s": 820004.4825632463,
+    "end_model_s": 820004.4865632461,
+    "termination": "final time",
+    "voltage_min_V": 4.103593590429134,
+    "voltage_max_V": 4.10359600738892
+  },
+  "step_status_counts": {
+    "solved": 1867
+  }
+}

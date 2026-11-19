@@ -1,0 +1,94 @@
+{
+  "scope": "scenario switch verification on the same initial RPT0 window",
+  "cell_id": "imperial_expt2_2_cell_D",
+  "observed_rows": 591,
+  "duration_s": 590.0000280234999,
+  "ageing_cycles": 0,
+  "physical_cause_validated": false,
+  "scenarios_attempted": 2,
+  "scenarios_completed": 2,
+  "source_sha256": {
+    "02_머신러닝_후_디지털트윈_입력.csv": "0baeecc33a4d468cb16f12cedb2fd529e695f343685024e1791596c80cbc747d",
+    "cell_D_preparation.csv": "07442ef290b52f57a42ba54960764bc6c76bd79a0f7d2c7d1243609c45eebf88",
+    "frozen_model.json": "acca23b6854b0942fbc2e6ca9a23045704bd469f5de22d1cad3ad9b4640b9090",
+    "cell_calibration.json": "6007cf85bd9687867decd12c02483400803663ef82688d09b3cef2f2b3126509",
+    "compare_mechanism_scenarios.py": "821197b04d98180504346ef7e25b210e3a17590b82f92021a298c7ada8ec295a"
+  },
+  "shared_state_fingerprint": "0d0303f65724451cad2d16ac25e4597df3ace7a3ae45e6e135ca87a141b926de",
+  "preparation_wall_s": 5.1664042999909725,
+  "total_wall_s": 29.682339000006323,
+  "scenarios": [
+    {
+      "scenario": "sei_growth_paused",
+      "status": "completed",
+      "sei_growth_enabled": false,
+      "plating_reactions_enabled": true,
+      "changed_parameters": {
+        "SEI solvent diffusivity [m2.s-1]": 0.0
+      },
+      "voltage_rmse_mV": 14.31729353125758,
+      "model_changes": {
+        "sei_thickness_nm": 9.234699671623048e-08,
+        "sei_loss_ah": 0.0,
+        "plated_li_mol_m3": -12.89680486154943,
+        "dead_li_mol_m3": 0.01849875939896284
+      },
+      "maximum_abs_sei_current_density_A_m2": 0.0,
+      "maximum_state_drift": {
+        "sei_loss_ah": 0.0,
+        "plated_li_mol_m3": 12.89680486154943,
+        "dead_li_mol_m3": 0.01849875939896284
+      },
+      "numerics": {
+        "wall_s": 19.17099369999778,
+        "duration_s": 590.0000280234999,
+        "termination": "final time",
+        "current_max_error_A": 4.996003610813204e-16,
+        "charge_integral_source_Ah": 0.08188816459086833,
+        "charge_integral_model_Ah": 0.0818881645908549,
+        "charge_residual_Ah": -1.341982081015658e-14,
+        "initial_differential_state_max_jump": 4.440892098500626e-16,
+        "input_fingerprint": "0d0303f65724451cad2d16ac25e4597df3ace7a3ae45e6e135ca87a141b926de",
+        "terminal_fingerprint": "fe97fbadb431c1cb5849ff4606932d5bae38fbfa4cde4af3ae0fffdb553be6f6"
+      },
+      "wall_s": 19.17171770001005
+    },
+    {
+      "scenario": "both_paused",
+      "status": "completed",
+      "sei_growth_enabled": false,
+      "plating_reactions_enabled": false,
+      "changed_parameters": {
+        "SEI solvent diffusivity [m2.s-1]": 0.0,
+        "Lithium plating kinetic rate constant [m.s-1]": 0.0,
+        "Dead lithium decay constant [s-1]": 0.0
+      },
+      "voltage_rmse_mV": 14.321899735255547,
+      "model_changes": {
+        "sei_thickness_nm": 9.957619173661669e-08,
+        "sei_loss_ah": 0.0,
+        "plated_li_mol_m3": 0.0,
+        "dead_li_mol_m3": 0.0
+      },
+      "maximum_abs_sei_current_density_A_m2": 0.0,
+      "maximum_state_drift": {
+        "sei_loss_ah": 0.0,
+        "plated_li_mol_m3": 0.0,
+        "dead_li_mol_m3": 0.0
+      },
+      "numerics": {
+        "wall_s": 5.140944900005707,
+        "duration_s": 590.0000280234999,
+        "termination": "final time",
+        "current_max_error_A": 4.996003610813204e-16,
+        "charge_integral_source_Ah": 0.08188816459086833,
+        "charge_integral_model_Ah": 0.08188816459087178,
+        "charge_residual_Ah": 3.4555691641457997e-15,
+        "initial_differential_state_max_jump": 4.440892098500626e-16,
+        "input_fingerprint": "0d0303f65724451cad2d16ac25e4597df3ace7a3ae45e6e135ca87a141b926de",
+        "terminal_fingerprint": "fb094f5a15efe84976ca0f5a05ee92f12351795e53fda9cefa34b6e08b6212fa"
+      },
+      "wall_s": 5.141710600000806
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "scope": "source and completed experiment evidence snapshot, 2026-11-19",
+  "historical_hashes": "Hashes embedded in the historical reports identify original run files. Publication paths and current code may differ.",
+  "superseded_attempts": "The raw and compressed progress receipts are historical snapshots of attempts replaced by the grouped baseline. Their running status is not a current process claim.",
+  "files": [
+    {
+      "source": "outputs/imperial_aws_timing_20261118/local_mechanism_switch_20261118.json",
+      "source_sha256": "47abaaec938eac0b0ef766399b8fc297920445210effb82006bd2ad6e8790244",
+      "published": "experiments/team_six_outputs_20261117/evidence/local_mechanism_switch_20261118.json",
+      "published_sha256": "cb0c83b34ec0931774d997ba3783baeac858d785dd5c5dcadad6886b16300c02",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/local_mechanism_switch_retry_20261118.json",
+      "source_sha256": "522c3857fc28897359c19017dc7c82f7cce4b282717ab1f7ddb214b2e4775143",
+      "published": "experiments/team_six_outputs_20261117/evidence/local_mechanism_switch_retry_20261118.json",
+      "published_sha256": "14ad79cfdfcfd4ece3902bc9a40f76a77513f46fedb3dc7aaf5ac592b172ea33",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/coupled_output/report.json",
+      "source_sha256": "bfbe89cf4687940a9949a891aa62a2186194a34a811acdf4395301b04b9181fe",
+      "published": "experiments/team_six_outputs_20261117/evidence/coupled_report.json",
+      "published_sha256": "5339cbf644ec1391b51590ddc8dce938920d817929ed2622132a0a65407cc620",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/coupled_output/coupled_model.json",
+      "source_sha256": "e8b986acc1fbc519435317ae524cc111285247f568aca7b6823c70888befba9a",
+      "published": "experiments/team_six_outputs_20261117/evidence/coupled_model.json",
+      "published_sha256": "1128928167eea8c2e6685ed0621283bf9b8170b0827819f419ec602b75102600",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/coupled_output/coupled_model_rows.csv",
+      "source_sha256": "6b711a549457913450806744c25f75908b2b4fe22d8fde3f110a5f011469cac1",
+      "published": "experiments/team_six_outputs_20261117/evidence/coupled_model_rows.csv",
+      "published_sha256": "6b711a549457913450806744c25f75908b2b4fe22d8fde3f110a5f011469cac1",
+      "transformation": "exact bytes"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_grouped/d_long_score.json",
+      "source_sha256": "883e672c80982abd1f896830550558322400f791a748bdf57fc124f076d6e0b9",
+      "published": "experiments/team_six_outputs_20261117/evidence/long_D_baseline/d_long_score.json",
+      "published_sha256": "ad5b7c9e0924da38b54e13933d8c9e6ab0e22c015a9b0f528da3071a520d05d9",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_grouped/grouping_physical_audit.json",
+      "source_sha256": "91e61c110e18f88d134356bc821a04fee89df8d974df5d75f692eb09a673f8d7",
+      "published": "experiments/team_six_outputs_20261117/evidence/long_D_baseline/grouping_physical_audit.json",
+      "published_sha256": "e6fa9894b2c4dc218456392092ff290f857f2d7ae1cbd48c719786a99b5c89c8",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_grouped/progress.json",
+      "source_sha256": "43e70da6f0ca6d1d1d6bbdc4a25c75e51fdefddddcc6918f82a1ca8ff86a0418",
+      "published": "experiments/team_six_outputs_20261117/evidence/long_D_baseline/progress.json",
+      "published_sha256": "a21b1c546fed1a30499e585538f544fb1a2864f152f8c303fcc778aad353b525",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_grouped/RPT0_common_measured_RPT0_capacity.csv",
+      "source_sha256": "14bc72dc979f5ad184f2a14636d3e094cf8b3481a26d77667be98fc069c2e485",
+      "published": "experiments/team_six_outputs_20261117/evidence/long_D_baseline/RPT0_common_measured_RPT0_capacity.csv",
+      "published_sha256": "14bc72dc979f5ad184f2a14636d3e094cf8b3481a26d77667be98fc069c2e485",
+      "transformation": "exact bytes"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_grouped/RPT0_own_normalized_capacity.csv",
+      "source_sha256": "b9e3124eff1b1d868bff3b24207afbf5c9f78ed6780d83ac78293dfcb1387d15",
+      "published": "experiments/team_six_outputs_20261117/evidence/long_D_baseline/RPT0_own_normalized_capacity.csv",
+      "published_sha256": "b9e3124eff1b1d868bff3b24207afbf5c9f78ed6780d83ac78293dfcb1387d15",
+      "transformation": "exact bytes"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_grouped/RPT1_common_measured_RPT0_capacity.csv",
+      "source_sha256": "6c2a8a7445a221d7c0009fb2b4adf59e924f1a54d242acea19332bbe515a38a7",
+      "published": "experiments/team_six_outputs_20261117/evidence/long_D_baseline/RPT1_common_measured_RPT0_capacity.csv",
+      "published_sha256": "6c2a8a7445a221d7c0009fb2b4adf59e924f1a54d242acea19332bbe515a38a7",
+      "transformation": "exact bytes"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_grouped/RPT1_own_normalized_capacity.csv",
+      "source_sha256": "4980c547f275ce07d13f0328791a21065e76f1dc62f869d782ab21d1662ea77f",
+      "published": "experiments/team_six_outputs_20261117/evidence/long_D_baseline/RPT1_own_normalized_capacity.csv",
+      "published_sha256": "4980c547f275ce07d13f0328791a21065e76f1dc62f869d782ab21d1662ea77f",
+      "transformation": "exact bytes"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_grouped/steps.json",
+      "source_sha256": "fdd4c2cf9086913efd0ee7e837f813e70f4a2d7f1ab1bfafce35483cbb2c2b42",
+      "published": "experiments/team_six_outputs_20261117/evidence/long_D_baseline/steps.json",
+      "published_sha256": "5047f5483a73fe443a7fdc2d01fa6dc8d33ae02e7014748e8ef46f4fe61bd27f",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active/progress.json",
+      "source_sha256": "43173355c8d362e28e85b66dabda72c8e85103ee597e6fd6871e4a54b2638dbf",
+      "published": "experiments/team_six_outputs_20261117/evidence/superseded_attempts/raw_progress.json",
+      "published_sha256": "4009cc4b83eff865cdf1a2e941491133577caece2bfa220c4584f92578acc699",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "outputs/imperial_aws_timing_20261118/long_D_25_both_active_compressed/progress.json",
+      "source_sha256": "c5e9b1820e80e20c2d84b42c376905e57c8a759f13806c751bb858136b6e90f0",
+      "published": "experiments/team_six_outputs_20261117/evidence/superseded_attempts/compressed_progress.json",
+      "published_sha256": "23f6baa91042b923bfe3b5e0f7545fea3ec77b24b6cb2f0dc193efb088de957d",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/aws_measure_20261118.py",
+      "source_sha256": "0f77febbfc01e9cb622b18b408682051e3592dd3d39d7a16badff26149502588",
+      "published": "experiments/team_six_outputs_20261117/aws_measure_20261118.py",
+      "published_sha256": "feabef57f2faadd3413310e55892df58c8e9dd32c32f3001406dfb55e261893b",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/compare_mechanism_scenarios.py",
+      "source_sha256": "821197b04d98180504346ef7e25b210e3a17590b82f92021a298c7ada8ec295a",
+      "published": "experiments/team_six_outputs_20261117/compare_mechanism_scenarios.py",
+      "published_sha256": "821197b04d98180504346ef7e25b210e3a17590b82f92021a298c7ada8ec295a",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/coupled_run.py",
+      "source_sha256": "e880f0e00bca5f30e1772d1576b842f877805c253a649b5a9e9b6a8dbe87522f",
+      "published": "experiments/team_six_outputs_20261117/coupled_run.py",
+      "published_sha256": "83c335de8132d71c75b64c21a639ca444c54adf179981f4461e2c71bbeb84edb",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/d_long_compression.py",
+      "source_sha256": "5a079da62d08e85060542ddfa27d12b63cdabe72ee6d2ac869e327cc8782852e",
+      "published": "experiments/team_six_outputs_20261117/d_long_compression.py",
+      "published_sha256": "5a079da62d08e85060542ddfa27d12b63cdabe72ee6d2ac869e327cc8782852e",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/d_long_grouped.py",
+      "source_sha256": "0b42e25d895248bf25d7804891abccb4bd63b865c1203925a7ee359976ad9609",
+      "published": "experiments/team_six_outputs_20261117/d_long_grouped.py",
+      "published_sha256": "0b42e25d895248bf25d7804891abccb4bd63b865c1203925a7ee359976ad9609",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/d_long_route.py",
+      "source_sha256": "08d4a3f757a619f9577c0064308e1d6bb4e7d62ef726750e95568fd0ebc16074",
+      "published": "experiments/team_six_outputs_20261117/d_long_route.py",
+      "published_sha256": "08d4a3f757a619f9577c0064308e1d6bb4e7d62ef726750e95568fd0ebc16074",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/d_long_scoring.py",
+      "source_sha256": "4f939e4e8fba6ddea6e3dc430a2d18f63836b71b019e5ebde75fe7a38cb5d343",
+      "published": "experiments/team_six_outputs_20261117/d_long_scoring.py",
+      "published_sha256": "9da0d49e4f3510acba14c7b3d7ef30a4e325e0e317c3564b76159c13248d7145",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/export_selected_cell.py",
+      "source_sha256": "498d6362d39699031e8dc239378f6df2c9109a1b5c582b667f92f4febf7ff582",
+      "published": "experiments/team_six_outputs_20261117/export_selected_cell.py",
+      "published_sha256": "9776f9cb28f2ed683ea74298fc76104d794b9965685c3f149d8aacc0fc345381",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/launch_aws_timing_20261118.py",
+      "source_sha256": "50a757ccd22dbd6b4477d30f56ee687ddd490beeef64b3319a131e2e1b01dbbe",
+      "published": "experiments/team_six_outputs_20261117/launch_aws_timing_20261118.py",
+      "published_sha256": "f3b8031af2696800ac168ca39e5acf4883bbeb3412cbd73126196595e2de1282",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "work/team_six_outputs_20261117/run_d_long_scenarios.py",
+      "source_sha256": "aa042650c87c50811f1bb794f5caed2d49b735c8d9022b4a5fa63ba83fdd3717",
+      "published": "experiments/team_six_outputs_20261117/run_d_long_scenarios.py",
+      "published_sha256": "f75e4bd3c0c833aecfbb9fdd03d8bd0fe36ccc47b3401fe1ff0a09b14581abbe",
+      "transformation": "repository paths and explicit runtime arguments; original executed source hash retained"
+    },
+    {
+      "source": "outputs/team_single_cell_20261117/CSV_열화6종_열매핑.csv",
+      "source_sha256": "4a8059435177732a0952d0df293f875e4cf4881d50202f92fc62d745c8cce3dc",
+      "published": "examples/team_single_cell_20261117/CSV_열화6종_열매핑.csv",
+      "published_sha256": "4a8059435177732a0952d0df293f875e4cf4881d50202f92fc62d745c8cce3dc",
+      "transformation": "exact bytes"
+    },
+    {
+      "source": "outputs/team_single_cell_20261117/검증기록.json",
+      "source_sha256": "38938e0a2ac039e860bbc705a382f9df64bba0d686107925b8d4783ab1e64261",
+      "published": "examples/team_single_cell_20261117/검증기록.json",
+      "published_sha256": "cf98129212766861d3e6fa05ecdd394cd0ffb58e6e489c9a83ef72c993570be1",
+      "transformation": "personal absolute paths replaced with archive placeholders"
+    },
+    {
+      "source": "outputs/team_single_cell_20261117/추가검토_셀1개_실측입력과_열화6종.csv",
+      "source_sha256": "f4f678e1c21c2b057d2f5098f4a31971cfc5e4adb48e7a1bb615e150494925de",
+      "published": "examples/team_single_cell_20261117/추가검토_셀1개_실측입력과_열화6종.csv",
+      "published_sha256": "f4f678e1c21c2b057d2f5098f4a31971cfc5e4adb48e7a1bb615e150494925de",
+      "transformation": "exact bytes"
+    }
+  ]
+}

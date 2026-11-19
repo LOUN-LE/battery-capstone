@@ -1,0 +1,357 @@
+{
+  "status": "completed",
+  "scope": "experimental coupled SPMe; the added degradation channels have no paired experimental validation",
+  "versions": {
+    "pybamm": "26.8.0.0"
+  },
+  "cell_id": "imperial_expt2_2_cell_D",
+  "session_id": "imperial_expt2_2_cell_D_initial_low_rate",
+  "input_rows": 591,
+  "duration_s": 590.0000280234999,
+  "historical_source_roles": {
+    "voltage": "evaluation only in this 591-row window",
+    "current": "imposed control",
+    "surface_temperature": "recorded only"
+  },
+  "initialization": {
+    "target_voltage_V": 3.6167114333333337,
+    "initial_equilibrium_model_voltage_V": 3.6167114333334203,
+    "negative_stoichiometry": 0.3596084389780986,
+    "positive_stoichiometry": 0.6672518820966299,
+    "initial_concentrations": {
+      "Initial concentration in negative electrode [mol.m-3]": 11914.90640866134,
+      "Initial concentration in positive electrode [mol.m-3]": 42106.262767825734
+    },
+    "particle_lithium_Ah": 7.094611861277718,
+    "inventory_residual_Ah": 0.0,
+    "initial_soc_remapping_used": false,
+    "rest_anchor": {
+      "source_rows": [
+        11,
+        12,
+        13
+      ],
+      "source_times_s": [
+        90.00000427477062,
+        100.0000047497451,
+        110.0000052247196
+      ],
+      "voltage_V": [
+        3.6166589,
+        3.6168165,
+        3.6166589
+      ],
+      "rule": "last three zero-current observations inside the declared initial 120 s rest",
+      "assumption": "homogeneous initial concentration; 120 s rest does not identify equilibrium or prior gradients"
+    }
+  },
+  "preparation": "same initial anchor and declared controls as the frozen baseline; complete re-solve with added mechanisms",
+  "temperature": "fixed isothermal 25 degrees C; measured surface temperature is not imposed",
+  "baseline_config_changes": {
+    "particle mechanics": [
+      "swelling and cracking",
+      "swelling only"
+    ],
+    "loss of active material": "stress-driven",
+    "SEI on cracks": "false"
+  },
+  "parameter_provenance": "PyBaMM OKane2022 coefficients; previously frozen M50T material overrides and initial lithium inventory; no new fitting",
+  "variables": {
+    "model_voltage_V": "Voltage [V]",
+    "model_current_A": "Current [A]",
+    "model_temperature_C": "Volume-averaged cell temperature [K]",
+    "sei_thickness_nm": "X-averaged negative SEI thickness [m]",
+    "sei_loss_ah": "Loss of capacity to negative SEI [A.h]",
+    "plated_li_mol_m3": "X-averaged negative lithium plating concentration [mol.m-3]",
+    "dead_li_mol_m3": "X-averaged negative dead lithium concentration [mol.m-3]",
+    "negative_crack_length_m": "X-averaged negative particle crack length [m]",
+    "lam_ne_pct": "Loss of active material in negative electrode [%]",
+    "lam_pe_pct": "Loss of active material in positive electrode [%]",
+    "negative_porosity": "X-averaged negative electrode porosity"
+  },
+  "observed_voltage_rmse_mV": 14.31716475798794,
+  "observed_voltage_max_abs_error_mV": 17.2479039337059,
+  "physical_accuracy_gate_passed": false,
+  "degradation_outputs_validated_against_measurements": false,
+  "lifetime_risk_validated": false,
+  "checks": {
+    "all_finite": true,
+    "positive_crack_length": true,
+    "positive_sei_thickness": true,
+    "positive_porosity_below_one": true,
+    "isothermal_temperature_fixed_at_25C": true,
+    "source_rows_unique": true,
+    "sei_loss_ah_nonnegative_with_roundoff_tolerance": true,
+    "plated_li_mol_m3_nonnegative_with_roundoff_tolerance": true,
+    "dead_li_mol_m3_nonnegative_with_roundoff_tolerance": true,
+    "lam_ne_pct_nonnegative_with_roundoff_tolerance": true,
+    "lam_pe_pct_nonnegative_with_roundoff_tolerance": true
+  },
+  "primary_mesh": {
+    "mesh": {
+      "x_n": 20,
+      "x_s": 20,
+      "x_p": 20,
+      "r_n": 40,
+      "r_p": 40
+    },
+    "preparation": {
+      "wall_s": 4.578682999999728,
+      "controls": [
+        {
+          "phase": "initial_rest",
+          "duration_s": 120.0,
+          "termination": "final time",
+          "end_voltage_V": 3.6166738498553026
+        },
+        {
+          "phase": "constant_current_charge",
+          "duration_s": 6884.78874920829,
+          "termination": "event: Voltage > 4.2 [V] [experiment]",
+          "end_voltage_V": 4.200000000000008
+        },
+        {
+          "phase": "constant_voltage_charge",
+          "duration_s": 1813.2460006120955,
+          "termination": "event: abs(Current [A]) < 0.05 [A] [experiment]",
+          "end_voltage_V": 4.199999999912755
+        },
+        {
+          "phase": "rest_before_C10",
+          "duration_s": 7229.999999999998,
+          "termination": "final time",
+          "end_voltage_V": 4.196934508477139
+        }
+      ],
+      "model_duration_s": 16048.034749820386,
+      "observed_preparation_sample_span_s": 17282.27482086397,
+      "model_minus_observed_sample_span_s": -1234.240071043585,
+      "raw_preparation_current_forced": false,
+      "method": "declared 120 s rest; -1.5 A to 4.2 V; 4.2 V to 0.05 A; 7230 s rest",
+      "state_carried_through_all_controls": true,
+      "state_fingerprint": "0d0303f65724451cad2d16ac25e4597df3ace7a3ae45e6e135ca87a141b926de"
+    },
+    "observed_replay": {
+      "wall_s": 23.729019399999743,
+      "duration_s": 590.0000280234999,
+      "termination": "final time",
+      "current_max_error_A": 4.996003610813204e-16,
+      "charge_integral_source_Ah": 0.08188816459086833,
+      "charge_integral_model_Ah": 0.08188816459085935,
+      "charge_residual_Ah": -8.978928711655954e-15,
+      "initial_differential_state_max_jump": 1.6653345369377348e-16,
+      "input_fingerprint": "0d0303f65724451cad2d16ac25e4597df3ace7a3ae45e6e135ca87a141b926de",
+      "terminal_fingerprint": "329d84e3d4d984cd135e567760144ebecf70850e870f43d866f9d9b8e9c4f61a"
+    },
+    "split_comparison": {
+      "split_time_s": 295.0000140117518,
+      "left": {
+        "wall_s": 14.602401099999042,
+        "duration_s": 295.00001401174995,
+        "termination": "final time",
+        "current_max_error_A": 4.440892098500626e-16,
+        "charge_integral_source_Ah": 0.0409438768461191,
+        "charge_integral_model_Ah": 0.040943876846119664,
+        "charge_residual_Ah": 5.620504062164855e-16,
+        "initial_differential_state_max_jump": 1.6653345369377348e-16,
+        "input_fingerprint": "0d0303f65724451cad2d16ac25e4597df3ace7a3ae45e6e135ca87a141b926de",
+        "terminal_fingerprint": "d6fbbfe2adb30ca30a1f7db347f7148cdff4368d29136d3aeeb25b816926006c"
+      },
+      "right": {
+        "wall_s": 12.754733399999168,
+        "duration_s": 295.00001401174814,
+        "termination": "final time",
+        "current_max_error_A": 4.996003610813204e-16,
+        "charge_integral_source_Ah": 0.040944287744749217,
+        "charge_integral_model_Ah": 0.040944287744741015,
+        "charge_residual_Ah": -8.201772594418344e-15,
+        "initial_differential_state_max_jump": 1.1102230246251565e-16,
+        "input_fingerprint": "d6fbbfe2adb30ca30a1f7db347f7148cdff4368d29136d3aeeb25b816926006c",
+        "terminal_fingerprint": "5b9fd515b93975a704410257056169ff84692876a9791bcbf2a07f2ae1abebac"
+      },
+      "terminal_state": {
+        "max_absolute_state_difference": 1.3322676295501878e-15,
+        "max_scaled_state_difference": 6.106226635438361e-16,
+        "state_elements": 207,
+        "state_scale_definition": "abs(a-b)/max(1,abs(a)) elementwise"
+      },
+      "maximum_voltage_difference_V_on_split_grid": 1.5987211554602254e-14,
+      "maximum_voltage_difference_V_on_source_grid": 1.5987211554602254e-14,
+      "maximum_trajectory_differences": {
+        "model_voltage_V": 1.5987211554602254e-14,
+        "model_current_A": 3.3306690738754696e-16,
+        "model_temperature_C": 0.0,
+        "sei_thickness_nm": 4.963083675318166e-15,
+        "sei_loss_ah": 3.469446951953614e-18,
+        "plated_li_mol_m3": 1.0302869668521453e-13,
+        "dead_li_mol_m3": 3.3306690738754696e-16,
+        "negative_crack_length_m": 0.0,
+        "lam_ne_pct": 5.558653716356346e-21,
+        "lam_pe_pct": 0.0,
+        "negative_porosity": 2.7755575615628914e-17
+      },
+      "state_tolerance": 1e-05,
+      "voltage_tolerance_V": 1e-05,
+      "passed": true
+    }
+  },
+  "ranges": {
+    "model_voltage_V": {
+      "minimum": 4.136033895832177,
+      "maximum": 4.169321470755984,
+      "start": 4.169321470755984,
+      "end": 4.136033895832177,
+      "end_minus_start": -0.03328757492380685
+    },
+    "model_current_A": {
+      "minimum": 0.49946411000000035,
+      "maximum": 0.4998190899999997,
+      "start": 0.4996416,
+      "end": 0.49968103000000014,
+      "end_minus_start": 3.943000000011798e-05
+    },
+    "model_temperature_C": {
+      "minimum": 25.0,
+      "maximum": 25.0,
+      "start": 25.0,
+      "end": 25.0,
+      "end_minus_start": 0.0
+    },
+    "sei_thickness_nm": {
+      "minimum": 5.198783804352652,
+      "maximum": 5.205947453315616,
+      "start": 5.198783804352652,
+      "end": 5.205947453315616,
+      "end_minus_start": 0.007163648962964508
+    },
+    "sei_loss_ah": {
+      "minimum": 0.0001734850502657292,
+      "maximum": 0.00017973691750940157,
+      "start": 0.0001734850502657292,
+      "end": 0.00017973691750940157,
+      "end_minus_start": 6.251867243672361e-06
+    },
+    "plated_li_mol_m3": {
+      "minimum": 27.12485339749386,
+      "maximum": 40.02159776877586,
+      "start": 40.02159776877586,
+      "end": 27.12485339749386,
+      "end_minus_start": -12.896744371282
+    },
+    "dead_li_mol_m3": {
+      "minimum": 0.8519434022624797,
+      "maximum": 0.8704302641912175,
+      "start": 0.8519434022624797,
+      "end": 0.8704302641912175,
+      "end_minus_start": 0.01848686192873783
+    },
+    "negative_crack_length_m": {
+      "minimum": 2.0000000000023204e-08,
+      "maximum": 2.0000000907927503e-08,
+      "start": 2.0000000000023204e-08,
+      "end": 2.0000000907927503e-08,
+      "end_minus_start": 9.079042983380732e-16
+    },
+    "lam_ne_pct": {
+      "minimum": 1.0244605164189124e-10,
+      "maximum": 1.7767044369065843e-06,
+      "start": 1.0244605164189124e-10,
+      "end": 1.7767044369065843e-06,
+      "end_minus_start": 1.7766019908549424e-06
+    },
+    "lam_pe_pct": {
+      "minimum": 0.0002996566224169328,
+      "maximum": 0.0002996566224169328,
+      "start": 0.0002996566224169328,
+      "end": 0.0002996566224169328,
+      "end_minus_start": 0.0
+    },
+    "negative_porosity": {
+      "minimum": 0.24939773758053713,
+      "maximum": 0.24956259965509262,
+      "start": 0.24939773758053713,
+      "end": 0.24956259965509262,
+      "end_minus_start": 0.00016486207455548851
+    }
+  },
+  "source_sha256": {
+    "02_머신러닝_후_디지털트윈_입력.csv": "0baeecc33a4d468cb16f12cedb2fd529e695f343685024e1791596c80cbc747d",
+    "cell_D_preparation.csv": "07442ef290b52f57a42ba54960764bc6c76bd79a0f7d2c7d1243609c45eebf88",
+    "frozen_model.json": "acca23b6854b0942fbc2e6ca9a23045704bd469f5de22d1cad3ad9b4640b9090",
+    "cell_calibration.json": "6007cf85bd9687867decd12c02483400803663ef82688d09b3cef2f2b3126509",
+    "coupled_run.py": "e880f0e00bca5f30e1772d1576b842f877805c253a649b5a9e9b6a8dbe87522f",
+    "twin_runner.py": "6c75a95a4120efe5fbbbe68c1bd750b91f7de35da2cfe098ffb665210732bb02"
+  },
+  "output_sha256": "6b711a549457913450806744c25f75908b2b4fe22d8fde3f110a5f011469cac1",
+  "refined_mesh": {
+    "mesh": {
+      "x_n": 40,
+      "x_s": 40,
+      "x_p": 40,
+      "r_n": 80,
+      "r_p": 80
+    },
+    "preparation": {
+      "wall_s": 9.207116800000222,
+      "controls": [
+        {
+          "phase": "initial_rest",
+          "duration_s": 120.0,
+          "termination": "final time",
+          "end_voltage_V": 3.6166738479601688
+        },
+        {
+          "phase": "constant_current_charge",
+          "duration_s": 6884.826646731856,
+          "termination": "event: Voltage > 4.2 [V] [experiment]",
+          "end_voltage_V": 4.2000000000000135
+        },
+        {
+          "phase": "constant_voltage_charge",
+          "duration_s": 1813.1381970844996,
+          "termination": "event: abs(Current [A]) < 0.05 [A] [experiment]",
+          "end_voltage_V": 4.199999999976794
+        },
+        {
+          "phase": "rest_before_C10",
+          "duration_s": 7229.999999999998,
+          "termination": "final time",
+          "end_voltage_V": 4.1969346559847
+        }
+      ],
+      "model_duration_s": 16047.964843816357,
+      "observed_preparation_sample_span_s": 17282.27482086397,
+      "model_minus_observed_sample_span_s": -1234.3099770476147,
+      "raw_preparation_current_forced": false,
+      "method": "declared 120 s rest; -1.5 A to 4.2 V; 4.2 V to 0.05 A; 7230 s rest",
+      "state_carried_through_all_controls": true,
+      "state_fingerprint": "3dd3779a61ca1ffff46840fd9c4ecbe3d4e57ec4a68149f9eb734ddc878fe16d"
+    },
+    "observed_replay": {
+      "wall_s": 79.04639040000075,
+      "duration_s": 590.0000280234981,
+      "termination": "final time",
+      "current_max_error_A": 4.996003610813204e-16,
+      "charge_integral_source_Ah": 0.08188816459086833,
+      "charge_integral_model_Ah": 0.08188816459086246,
+      "charge_residual_Ah": -5.870304242705515e-15,
+      "initial_differential_state_max_jump": 1.6653345369377348e-16,
+      "input_fingerprint": "3dd3779a61ca1ffff46840fd9c4ecbe3d4e57ec4a68149f9eb734ddc878fe16d",
+      "terminal_fingerprint": "167a3720a0f4ddd2ccf0262954a405d1a66de25eddc1cbef13e0462fe9e414f9"
+    }
+  },
+  "mesh_sensitivity_max_abs_by_column": {
+    "model_voltage_V": 2.353652867270739e-06,
+    "model_current_A": 4.996003610813204e-16,
+    "model_temperature_C": 0.0,
+    "sei_thickness_nm": 8.493569936263157e-07,
+    "sei_loss_ah": 7.412613110130417e-10,
+    "plated_li_mol_m3": 0.0008605441878266618,
+    "dead_li_mol_m3": 7.748449265110313e-05,
+    "negative_crack_length_m": 1.0321328072865164e-18,
+    "lam_ne_pct": 1.8725785366768832e-09,
+    "lam_pe_pct": 2.365832756368036e-07,
+    "negative_porosity": 1.0485698531681464e-08
+  },
+  "mesh_sensitivity_scope": "numeric sensitivity only; no predeclared acceptance limit for the newly added degradation channels"
+}

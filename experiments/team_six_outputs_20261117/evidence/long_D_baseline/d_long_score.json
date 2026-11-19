@@ -1,0 +1,381 @@
+{
+  "status": "partial_RPT0_RPT1_metric_scoring_complete",
+  "physical_validation_complete": false,
+  "degradation_cause_validated": false,
+  "lifetime_validated": false,
+  "evidence": {
+    "cell_id": "D",
+    "experiment": "Imperial Expt 2,2; LG M50T; nominal 25 C",
+    "source_files": [
+      {
+        "path": "<RESTORED_CAPSTONE>\\work\\external_m50_benchmark\\kirkaldy_expt2_cellD_performance_summary.csv",
+        "sha256": "e1d4fe1d45d976c0b1831fdb5a4c8835dd8db549418768f45fe75c2b877b926e"
+      },
+      {
+        "path": "<RESTORED_CAPSTONE>\\work\\external_m50_benchmark\\kirkaldy_expt2_cellD_RPT0_C10.csv",
+        "sha256": "966166df526ea5cb1a69940f4fcd2045e5b9c00cd916868146b496558908ab69"
+      },
+      {
+        "path": "<RESTORED_CAPSTONE>\\work\\external_m50_benchmark\\raw_protocol\\NDK - LG M50 deg - exp 2,2 - rig 3 - 25degC - cell D - RPT1_01_MB_CA5.mpt",
+        "sha256": "b9fcc789759d65817b94176dd4d7f69fdeb022130ab762350f1e3a809ce1b39a"
+      }
+    ],
+    "summary_rpt_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "RPT1_selection": {
+      "Ns": 5,
+      "mode": 1,
+      "source_line_first": 9077,
+      "source_line_last": 43073,
+      "rows": 33997,
+      "current_conversion": "-I/mA / 1000"
+    },
+    "curve_capacity_origin": "Subtract first retained discharge sample; do not invent unrecorded onset or cutoff sample",
+    "raw_cutoff_policy": "Last retained loaded sample is reported as observed; no interpolation/extrapolation to an unrecorded 2.5 V crossing",
+    "uncertainty": {
+      "instrument_accuracy": "not supplied to this scorer",
+      "repeat_cell_confidence_interval": "not estimated",
+      "summary_vs_raw_difference": "reported as extraction/integration consistency; not a statistical confidence interval"
+    },
+    "criteria": {
+      "path": "<RESTORED_CAPSTONE>\\repo\\configs\\empirical_acceptance.json",
+      "sha256": "368c84177ccf1e902602a63fb74d69cdf2ad6c6109c714d5f29d4a6a962a49c4",
+      "criteria_id": "LG_M50T_1A_2A_20261103"
+    },
+    "scorer": {
+      "path": "<EXPERIMENT_WORKSPACE>\\work\\team_six_outputs_20261117\\d_long_scoring.py",
+      "sha256": "4f939e4e8fba6ddea6e3dc430a2d18f63836b71b019e5ebde75fe7a38cb5d343"
+    }
+  },
+  "RPTs": [
+    {
+      "rpt_id": 0,
+      "model": {
+        "source": {
+          "path": "<EXPERIMENT_WORKSPACE>\\outputs\\imperial_aws_timing_20261118\\long_D_25_both_active_grouped\\RPT0.npz",
+          "sha256": "d21b507d7975d0d80ec3e26d8a753cb00a508d3d8905afdbec41c28d5dce2676"
+        },
+        "termination": "event: Voltage < 2.5 [V] [experiment]",
+        "independent_cutoff_declared": true,
+        "endpoint_voltage_numerical_check_tolerance_V": 0.0001,
+        "charge_integral_numerical_check_tolerance_Ah": 0.0004838102031311869,
+        "normalized_curve_arrays_sha256": "841cfdc1bde39162594304fe541d4970bf029f821f05898163f74535605ec64c",
+        "rows": 8708,
+        "duration_s": 34827.1346254456,
+        "first_voltage_V": 4.169311871220685,
+        "last_voltage_V": 2.4999999999998836,
+        "current_min_A": 0.5,
+        "current_max_A": 0.5,
+        "capacity_first_to_last_Ah": 4.8371020313118684,
+        "current_integral_first_to_last_Ah": 4.837102031311889,
+        "capacity_minus_current_integral_Ah": -2.042810365310288e-14,
+        "sample_spacing_s": {
+          "minimum": 3.3809945720713586,
+          "median": 3.9999717012251494,
+          "maximum": 3.9999717012397014
+        }
+      },
+      "observed_raw": {
+        "rows": 34754,
+        "duration_s": 34751.74565061927,
+        "first_voltage_V": 4.1674089,
+        "last_voltage_V": 2.5001557,
+        "current_min_A": 0.49942464999999997,
+        "current_max_A": 0.49989797999999996,
+        "capacity_first_to_last_Ah": 4.823322026743873,
+        "current_integral_first_to_last_Ah": 4.823316504839452,
+        "capacity_minus_current_integral_Ah": 5.521904420824342e-06,
+        "sample_spacing_s": {
+          "minimum": 0.002000000087718945,
+          "median": 1.0000000474974513,
+          "maximum": 1.0000000475047273
+        }
+      },
+      "measured_summary_capacity_Ah": 4.823331466949698,
+      "capacity_error_Ah": 0.01377056436217039,
+      "capacity_error_percent_of_measured": 0.28549902606795907,
+      "summary_minus_raw_first_to_last_capacity_Ah": 9.440205825050896e-06,
+      "voltage_at_own_normalized_capacity": {
+        "status": "scored_on_overlap",
+        "axis": "discharged_Ah / stated_normalization_capacity_Ah",
+        "model_denominator_Ah": 4.8371020313118684,
+        "observed_denominator_Ah": 4.823331466949698,
+        "requested_interval": [
+          0.0,
+          1.0
+        ],
+        "model_domain": [
+          0.0,
+          1.0
+        ],
+        "observed_domain": [
+          0.0,
+          0.9999980428038401
+        ],
+        "valid_interval": [
+          0.0,
+          0.9999980428038401
+        ],
+        "valid_fraction_of_requested_span": 0.9999980428038401,
+        "extrapolation": false,
+        "capacity_and_duration_mismatch_removed_by_this_axis": true,
+        "acceptance_threshold_mV": null,
+        "physical_validation_complete": false,
+        "grid_points": 1001,
+        "weighting": "uniform normalized discharged Ah; trapezoidal integral",
+        "RMSE_mV": 29.17125969452989,
+        "MAE_mV": 24.436699121926388,
+        "bias_mV": 24.425725200022164,
+        "max_abs_error_mV": 70.91643078850085,
+        "offset_removed_RMSE_mV": 27.597477917962575,
+        "removed_initial_voltage_bias_mV": 1.902971220685501
+      },
+      "voltage_at_common_measured_RPT0_capacity_axis": {
+        "status": "scored_on_overlap",
+        "axis": "discharged_Ah / stated_normalization_capacity_Ah",
+        "model_denominator_Ah": 4.823331466949698,
+        "observed_denominator_Ah": 4.823331466949698,
+        "requested_interval": [
+          0.0,
+          1.0
+        ],
+        "model_domain": [
+          0.0,
+          1.0028549902606796
+        ],
+        "observed_domain": [
+          0.0,
+          0.9999980428038401
+        ],
+        "valid_interval": [
+          0.0,
+          0.9999980428038401
+        ],
+        "valid_fraction_of_requested_span": 0.9999980428038401,
+        "extrapolation": false,
+        "capacity_and_duration_mismatch_removed_by_this_axis": false,
+        "acceptance_threshold_mV": null,
+        "physical_validation_complete": false,
+        "grid_points": 1001,
+        "weighting": "uniform normalized discharged Ah; trapezoidal integral",
+        "RMSE_mV": 34.36116938117434,
+        "MAE_mV": 27.71625006397239,
+        "bias_mV": 27.71625006397239,
+        "max_abs_error_mV": 100.49492947202143,
+        "offset_removed_RMSE_mV": 32.84546861097259,
+        "removed_initial_voltage_bias_mV": 1.902971220685501
+      }
+    },
+    {
+      "rpt_id": 1,
+      "model": {
+        "source": {
+          "path": "<EXPERIMENT_WORKSPACE>\\outputs\\imperial_aws_timing_20261118\\long_D_25_both_active_grouped\\RPT1.npz",
+          "sha256": "68d4823670575093a5004e04c2fee0f329eb5deb496a634f8c5008cf3d3f497b"
+        },
+        "termination": "event: Voltage < 2.5 [V] [experiment]",
+        "independent_cutoff_declared": true,
+        "endpoint_voltage_numerical_check_tolerance_V": 0.0001,
+        "charge_integral_numerical_check_tolerance_Ah": 0.0004814731293426088,
+        "normalized_curve_arrays_sha256": "face2f51820b493ca84461b46ab739a6c4e580b2a4aa13eb6e8972108a09772c",
+        "rows": 8666,
+        "duration_s": 34658.86531270249,
+        "first_voltage_V": 4.169394902363651,
+        "last_voltage_V": 2.4999999999999343,
+        "current_min_A": 0.5,
+        "current_max_A": 0.5,
+        "capacity_first_to_last_Ah": 4.813731293426088,
+        "current_integral_first_to_last_Ah": 4.813731293430902,
+        "capacity_minus_current_integral_Ah": -4.813927034774679e-12,
+        "sample_spacing_s": {
+          "minimum": 3.291736717801541,
+          "median": 3.999950781930238,
+          "maximum": 3.9999507823958993
+        }
+      },
+      "observed_raw": {
+        "rows": 33997,
+        "duration_s": 33994.23361463938,
+        "first_voltage_V": 4.1692204,
+        "last_voltage_V": 2.5000768,
+        "current_min_A": 0.49944436999999997,
+        "current_max_A": 0.49991768999999997,
+        "capacity_first_to_last_Ah": 4.718283421184935,
+        "current_integral_first_to_last_Ah": 4.718282001166034,
+        "capacity_minus_current_integral_Ah": 1.420018901576725e-06,
+        "sample_spacing_s": {
+          "minimum": 0.0020000001022708602,
+          "median": 1.0000000474974513,
+          "maximum": 1.0000000475047273
+        }
+      },
+      "measured_summary_capacity_Ah": 4.718293414871289,
+      "capacity_error_Ah": 0.09543787855479824,
+      "capacity_error_percent_of_measured": 2.0227202965799718,
+      "summary_minus_raw_first_to_last_capacity_Ah": 9.993686354015097e-06,
+      "voltage_at_own_normalized_capacity": {
+        "status": "scored_on_overlap",
+        "axis": "discharged_Ah / stated_normalization_capacity_Ah",
+        "model_denominator_Ah": 4.813731293426088,
+        "observed_denominator_Ah": 4.718293414871289,
+        "requested_interval": [
+          0.0,
+          1.0
+        ],
+        "model_domain": [
+          0.0,
+          1.0
+        ],
+        "observed_domain": [
+          0.0,
+          0.999997881927749
+        ],
+        "valid_interval": [
+          0.0,
+          0.999997881927749
+        ],
+        "valid_fraction_of_requested_span": 0.999997881927749,
+        "extrapolation": false,
+        "capacity_and_duration_mismatch_removed_by_this_axis": true,
+        "acceptance_threshold_mV": null,
+        "physical_validation_complete": false,
+        "grid_points": 1001,
+        "weighting": "uniform normalized discharged Ah; trapezoidal integral",
+        "RMSE_mV": 26.962698815592937,
+        "MAE_mV": 22.619634977486516,
+        "bias_mV": 22.609008669406904,
+        "max_abs_error_mV": 64.11065781531589,
+        "offset_removed_RMSE_mV": 26.816542051317516,
+        "removed_initial_voltage_bias_mV": 0.17450236365057492
+      },
+      "voltage_at_common_measured_RPT0_capacity_axis": {
+        "status": "scored_on_overlap",
+        "axis": "discharged_Ah / stated_normalization_capacity_Ah",
+        "model_denominator_Ah": 4.823331466949698,
+        "observed_denominator_Ah": 4.823331466949698,
+        "requested_interval": [
+          0.0,
+          1.0
+        ],
+        "model_domain": [
+          0.0,
+          0.9980096384440107
+        ],
+        "observed_domain": [
+          0.0,
+          0.9782208528514845
+        ],
+        "valid_interval": [
+          0.0,
+          0.9782208528514845
+        ],
+        "valid_fraction_of_requested_span": 0.9782208528514845,
+        "extrapolation": false,
+        "capacity_and_duration_mismatch_removed_by_this_axis": false,
+        "acceptance_threshold_mV": null,
+        "physical_validation_complete": false,
+        "grid_points": 1001,
+        "weighting": "uniform normalized discharged Ah; trapezoidal integral",
+        "RMSE_mV": 64.01916430910606,
+        "MAE_mV": 42.11850031417411,
+        "bias_mV": 42.11850031417411,
+        "max_abs_error_mV": 393.9079226807918,
+        "offset_removed_RMSE_mV": 63.90449353679878,
+        "removed_initial_voltage_bias_mV": 0.17450236365057492
+      }
+    }
+  ],
+  "capacity_change": {
+    "model_drop_Ah": 0.023370737885780812,
+    "observed_drop_Ah": 0.10503805207840866,
+    "drop_error_Ah": -0.08166731419262785,
+    "model_drop_percent_of_own_RPT0": 0.4831557766302126,
+    "observed_drop_percent_of_own_RPT0": 2.177707520168326,
+    "drop_error_percentage_points": -1.6945517435381134,
+    "model_SOH_percent": [
+      100.0,
+      99.51684422336979
+    ],
+    "observed_SOH_percent": [
+      100.0,
+      97.82229247983167
+    ],
+    "SOH_errors_pp": [
+      0.0,
+      1.6945517435381134
+    ],
+    "SOH_RMSE_pp": 1.1982290289272874,
+    "SOH_max_abs_error_pp": 1.6945517435381134,
+    "post_baseline_only_SOH_RMSE_pp": 1.6945517435381134,
+    "RPT0_is_normalized_to_100_by_definition": true,
+    "post_baseline_observation_count": 1
+  },
+  "baseline_screening": {
+    "scope": "capacity-only two-point numerical screen, not full-curve acceptance",
+    "status": "exceeds_historical_numeric_limits_on_two_points",
+    "capacity_only_basic_limits": {
+      "SOH_RMSE_pp_max": 1.0,
+      "SOH_max_abs_error_pp_max": 2.0,
+      "two_point_values_within_limits": false
+    },
+    "voltage_acceptance": "not_evaluated_no_preagreed_threshold",
+    "full_validation_passed": false,
+    "post_baseline_RPT_count": 1,
+    "uncertainty_quantified": false
+  },
+  "historical_acceptance": {
+    "numeric_limits_diagnostic_only": {
+      "basic": {
+        "SOH_RMSE_pp_max": 1.0,
+        "SOH_max_abs_error_pp_max": 2.0,
+        "two_point_values_within_limits": false
+      },
+      "challenge": {
+        "SOH_RMSE_pp_max": 0.5,
+        "SOH_max_abs_error_pp_max": 1.0,
+        "two_point_values_within_limits": false
+      }
+    },
+    "formal_full_curve_acceptance": "not_evaluated_partial_curve",
+    "challenge_required": false,
+    "observed_total_RPT_count": 13,
+    "scored_RPT_count": 2,
+    "remaining_RPT_ids_not_scored": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ],
+    "EOL": "not_evaluated_no_observed_80_percent_crossing_in_this_two_point_comparison",
+    "voltage_shape_threshold": null,
+    "fresh_heldout_claim": false
+  },
+  "limitations": [
+    "One observed ageing interval; RPT0 contributes a zero SOH residual by normalization, not an independent successful prediction.",
+    "Normalizing each voltage curve by its own total capacity hides capacity/elapsed-time mismatch; absolute capacities and a common-Ah axis are also reported.",
+    "The raw loaded discharge samples do not include an asserted exact 2.5 V crossing; the summary capacity is the measured capacity reference.",
+    "D has been examined previously. No new blinded validation or parameter freeze chronology is certified here.",
+    "Instrument uncertainty and between-cell variability are not estimated; dense voltage samples are not independent replicate cells.",
+    "No degradation-mode inverse fitting is performed. Published DMA estimates are not direct mechanism ground truth."
+  ]
+}

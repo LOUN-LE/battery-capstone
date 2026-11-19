@@ -1,0 +1,21 @@
+﻿csv_column,quantity_group,korean_name,unit,source_or_definition,role
+cell_id,식별,셀 ID,,원자료 셀 식별자,시퀀스 묶음
+session_id,식별,실험 세션 ID,,원자료 실험 구간,시퀀스 묶음
+time_s,관측 입력,구간 시작 이후 시간,s,원본 시각에서 세션 첫 관측 시각을 뺀 값,입력
+voltage_V,관측 입력,실측 셀 전압,V,시험 장비의 셀 단자 전압,입력
+current_A,관측 입력,실측 전류,A,"시험 장비 전류를 변환. 방전 양수, 충전 음수",입력
+surface_temperature_C,관측 입력,실측 셀 표면 온도,°C,표면 센서 측정값,입력
+soc_estimated_fraction,추정 입력,충전 상태 추정치,0–1,완충 후 방전 시작을 1.0으로 가정. 현 시점까지의 전류 적산량을 공칭 5Ah로 나누어 차감,입력
+sei_thickness_nm,1. 보호막(SEI),음극 표면 평균 보호막 두께,nm,X-averaged negative SEI thickness [m] × 10⁹. 균열 표면과 구분,모델 출력
+sei_loss_ah,1. 보호막(SEI),음극 표면 보호막으로 인한 누적 리튬 손실 환산량,Ah,Loss of capacity to negative SEI [A.h]. 준비 구간의 누적량 포함,모델 출력
+plated_li_mol_m3,2. 리튬 도금,음극 금속 리튬 평균 농도,mol/m³,X-averaged negative lithium plating concentration [mol.m-3],모델 출력
+dead_li_mol_m3,2. 리튬 도금,음극 비활성 리튬 평균 농도,mol/m³,X-averaged negative dead lithium concentration [mol.m-3],모델 출력
+negative_crack_length_m,3. 음극 균열,음극 입자 평균 균열 길이,m,X-averaged negative particle crack length [m],모델 출력
+lam_ne_pct,4. 음극 활물질 손실,음극 활물질 손실률,%,Loss of active material in negative electrode [%],모델 출력
+lam_pe_pct,5. 양극 활물질 손실,양극 활물질 손실률,%,Loss of active material in positive electrode [%],모델 출력
+negative_porosity,6. 음극 공극률,음극 평균 공극률,0–1,X-averaged negative electrode porosity,모델 출력
+model_voltage_V,계산 확인,모델 계산 전압,V,Voltage [V],비교용
+model_temperature_C,계산 확인,모델 온도,°C,Volume-averaged cell temperature [K] − 273.15. 이 모델은 25°C 등온,비교용
+selection_status,선별 정보,추가 검토 대상으로 선별된 셀,,기존 전압 예측 오차·불확실성·학습 범위 기반 선별. 실측 위험도 라벨 없음,메타데이터
+source_row,출처,원본 행 번호,,공개 자료의 해당 방전 파일 내 행 번호,추적용
+source_time_s,출처,원본 측정 시각,s,시험 장비 원래 시간 좌표,추적용

@@ -1,0 +1,25 @@
+{
+  "phase_index_start": 2187,
+  "phase_count": 8,
+  "variants": {
+    "separate": {
+      "solver_steps": 8,
+      "elapsed_s": 8.163834199993289,
+      "model_time_s": 1008696.661869439,
+      "voltage_V": 4.11684102480484,
+      "charge_Ah": -2.7745482202870755
+    },
+    "grouped": {
+      "solver_steps": 2,
+      "elapsed_s": 6.210092799999984,
+      "model_time_s": 1008696.6618694391,
+      "voltage_V": 4.116841025026269,
+      "charge_Ah": -2.774548222098466
+    }
+  },
+  "relative_state_max_difference": 6.528596547111702e-10,
+  "time_difference_s": 1.1641532182693481e-10,
+  "voltage_difference_V": 2.2142909728017912e-10,
+  "charge_difference_Ah": 1.811390593076112e-09,
+  "passed": true
+}
