@@ -1,0 +1,161 @@
+{
+  "scope": "Capstone workflow helper source archive",
+  "changes": "Personal paths, AWS resource identifiers and notification email replaced with example values",
+  "files": [
+    {
+      "file": "audit_aws1000_retrieved.py",
+      "source_sha256": "fbc959b8e1524e6a92693195969fcf3e672153df48e3491b63f3004a54936c2b",
+      "published_sha256": "fbc959b8e1524e6a92693195969fcf3e672153df48e3491b63f3004a54936c2b"
+    },
+    {
+      "file": "aws1000_emergency.py",
+      "source_sha256": "93718f129ceea9cc821f862fd89125e808cbfd329e0b1374778bf72f1a399052",
+      "published_sha256": "93718f129ceea9cc821f862fd89125e808cbfd329e0b1374778bf72f1a399052"
+    },
+    {
+      "file": "aws1000_ops.py",
+      "source_sha256": "ffc177c9be977179b933ba7e5970aa06163eaf143289de3df4359d8c11ed7039",
+      "published_sha256": "ffc177c9be977179b933ba7e5970aa06163eaf143289de3df4359d8c11ed7039"
+    },
+    {
+      "file": "build_local_release.py",
+      "source_sha256": "cde87232012b799648159a299e47ae6c7b8b3687e8bd148b40dd38aa50486cce",
+      "published_sha256": "57b068df6a6378779cf87fa78d1fbc5939abfcb58a32647216c892f8c49a2bd9"
+    },
+    {
+      "file": "build_timing_report.py",
+      "source_sha256": "3b2f0dbdabc56d60544b16908a1aa076aeccbc9eb23f8eac9aa3756f99386e9c",
+      "published_sha256": "3b2f0dbdabc56d60544b16908a1aa076aeccbc9eb23f8eac9aa3756f99386e9c"
+    },
+    {
+      "file": "cloud_compare_20261116.py",
+      "source_sha256": "259be69cac6006c8d3b28a25a1d03298c28e10b74cf6b3bae499316f6eb84437",
+      "published_sha256": "259be69cac6006c8d3b28a25a1d03298c28e10b74cf6b3bae499316f6eb84437"
+    },
+    {
+      "file": "cloud_receipt.py",
+      "source_sha256": "3895c91ae9e6781fee8ea6e36b0ad1cbf5e501c5fdfe6cef0538872231c4da90",
+      "published_sha256": "3895c91ae9e6781fee8ea6e36b0ad1cbf5e501c5fdfe6cef0538872231c4da90"
+    },
+    {
+      "file": "configure_completion_email.py",
+      "source_sha256": "ad0ebd682d5e75e0a7512efa584fc24cc0b787f20089ae100ab4cbfec1daee06",
+      "published_sha256": "c2072db0aede8eff7efaa93d1310f0d8b6d61b6462901e36a2fccf85812a3d7c"
+    },
+    {
+      "file": "finalize_bms_delivery_20261116.py",
+      "source_sha256": "c94116e8bea737dacf4d71e9d59ada35b936481fe5f1a0db56a113a4d0afb7bd",
+      "published_sha256": "d07bf524c386f99960d5dbcf4aae654f416c94afe96efa786b442227a943b78b"
+    },
+    {
+      "file": "generate_aws1000_role_policy.py",
+      "source_sha256": "4a82287a5bd1955d61ed58bb029538ef246c6e145c0d8bf3974ad29e9555033c",
+      "published_sha256": "f9d6966cb976aaee370194a7db343a8bcdfa9227c8546f97e153d9e8a7357398"
+    },
+    {
+      "file": "inspect_nist.py",
+      "source_sha256": "e2fdc371451aab5072550fb3a7dc7a2287793be5edf0e014a2ba6f139b1b4adc",
+      "published_sha256": "e6f05d95452be3d810294df1d7636049925d27c08bc441bcae9f0b8984893855"
+    },
+    {
+      "file": "inspect_nist_styles.py",
+      "source_sha256": "2cc783c23299c141f414c250db468fe2f067a2e5beaa8dd541fe12c26cc5e12d",
+      "published_sha256": "dbadbc20120b59c2c4b47f7a2a567da572c9e91f969e2c343560c38d7624dd4f"
+    },
+    {
+      "file": "launch_pilot32.py",
+      "source_sha256": "5a29168b5dbdfb4b335c83430ef404668563218c8b251f78017dcf2b383de1ba",
+      "published_sha256": "eca347d0ca2c0eb3aad3f4de8588fca2f6416eb3fc999917a8905bacaba8757e"
+    },
+    {
+      "file": "launch_risk1000.py",
+      "source_sha256": "9952bf2da2983524bbde9525af849d2cd63027111c079b4988974e05427c90bc",
+      "published_sha256": "2335065c61febd8b920a24fd30650743127b707f4e3b0bac0563578eac60869f"
+    },
+    {
+      "file": "make_notion_evidence.py",
+      "source_sha256": "a6330efd0d3e94da0a38b8ea92aec0409f8da26ddb57bff510db6af3fcdcfbf5",
+      "published_sha256": "a78942501d5e508b3a9f5cc10ffcc615e2f9a14e021f49bf5d969fb32cef3c5e"
+    },
+    {
+      "file": "package_aws1000_delivery.py",
+      "source_sha256": "ff827962f18e3e576b4f455abbb5051c067f6b0846ff16e30a105ec30a8bd648",
+      "published_sha256": "ff827962f18e3e576b4f455abbb5051c067f6b0846ff16e30a105ec30a8bd648"
+    },
+    {
+      "file": "package_validation_sources_20261116.py",
+      "source_sha256": "6f9c5458f43993ee959c99cabb6ae0909eb5e3a214d83825fd4df7f859992852",
+      "published_sha256": "6f9c5458f43993ee959c99cabb6ae0909eb5e3a214d83825fd4df7f859992852"
+    },
+    {
+      "file": "preflight_aws1000.py",
+      "source_sha256": "a62dc01a9139bc6f94319cb6f8edeec49e5b3bf1626a1d9cd80aabf4b80947d8",
+      "published_sha256": "59967270a24c3ce09361690bc74c5cc34bf698b21c5d8ac651d6df6fa410c223"
+    },
+    {
+      "file": "prepare_capstone_git_20261117.py",
+      "source_sha256": "2f85c76b738fc27ec42382393b606e79240e19a2944c58bbd771b5fa8cd5f143",
+      "published_sha256": "9574e96fa020123d324d26a3b7160cfd331248d5cc7d7254e09a954a5d524e37"
+    },
+    {
+      "file": "prepare_cloud.py",
+      "source_sha256": "09fff11fde648e9f61f7a0b3b2cbfd474c8d55a416730dae20c8ff71b7cf2cec",
+      "published_sha256": "a679963cdd8e17aef642f6a14a548e0e0c4bf34104d4456728260adda42723d9"
+    },
+    {
+      "file": "prepare_cloud1000.py",
+      "source_sha256": "42bd593341d118f56f55a166af99ab5fb18194fa32c7915543df570abbd8ce43",
+      "published_sha256": "f480409554d8a5dce7fa2cdac391a608c670e3152a3db9323b85faea82882d6e"
+    },
+    {
+      "file": "review_ignition_pilot.py",
+      "source_sha256": "698d7b9d7207798029cd334779969b82811327676915ce50c3bdb7c5e9b2c317",
+      "published_sha256": "2a92e0b5a2253d927d9abfc51bedb1fb28d6fad9211a16f13f53428d64b86a4a"
+    },
+    {
+      "file": "test_aws1000_emergency.py",
+      "source_sha256": "510250cd61b6d0e3207a6f8e4fa7c0369207492f8f0c64e0aa7f5625075eb9a8",
+      "published_sha256": "510250cd61b6d0e3207a6f8e4fa7c0369207492f8f0c64e0aa7f5625075eb9a8"
+    },
+    {
+      "file": "test_aws1000_ops.py",
+      "source_sha256": "5a0d61d6728328af4c5ef984668eb4b14df8915b438c35518cac33bd59a240f0",
+      "published_sha256": "a9f4190c40d2372cc20366a0d2713a3b610027dc5453dc1c420d56e3584cfa7d"
+    },
+    {
+      "file": "test_aws1000_role_policy.py",
+      "source_sha256": "8f67c8df5ad52431a596ce3e72da1d0d0af9df1255187bfef860198563b99d97",
+      "published_sha256": "2ed09d745cbc9d26f14eb8c4fa277e042d899972a73830752fb84ea49f61bdd7"
+    },
+    {
+      "file": "validate_public_arc.py",
+      "source_sha256": "eeab4a3f238981f9f081d4856f8a87c8827e2d972d0a449abdd91a3b8fc44c5a",
+      "published_sha256": "27238154817ccaca6e5219b6c65b544bc052542cf9d7f1443149cc2748d0d097"
+    },
+    {
+      "file": "verify_nist_independent.py",
+      "source_sha256": "e6ea707f8d60f6e5cd7b6c7f84f5f0e51b04d2415ccbe22845d2f40434d88c0f",
+      "published_sha256": "e6ea707f8d60f6e5cd7b6c7f84f5f0e51b04d2415ccbe22845d2f40434d88c0f"
+    },
+    {
+      "file": "verify_retrieved_aws.py",
+      "source_sha256": "dece5ea79ad7239dfefe667c3662a62186ca7019ae456f8854f125748f073fa2",
+      "published_sha256": "dece5ea79ad7239dfefe667c3662a62186ca7019ae456f8854f125748f073fa2"
+    },
+    {
+      "file": "verify_scenario_validation.py",
+      "source_sha256": "9dc933f90bf96427d8e5fe5e7721f2e044413eb113573cb45bfbd550a5e1a032",
+      "published_sha256": "c3839787411dfd3c4ce9672e15a0b833838331f3eb2e51b572b428a280a1fe55"
+    },
+    {
+      "file": "verify_training_export.py",
+      "source_sha256": "e66625ce8e2e5c89551a4ec3fe0f15d051a96b43d883b4612827cd7cc7ebc1d2",
+      "published_sha256": "e66625ce8e2e5c89551a4ec3fe0f15d051a96b43d883b4612827cd7cc7ebc1d2"
+    },
+    {
+      "file": "write_risk1000_design.py",
+      "source_sha256": "19e9c138dc8f7e608dd70706e001142de5741bbd65413c8b31b5e893e0c822fe",
+      "published_sha256": "19e9c138dc8f7e608dd70706e001142de5741bbd65413c8b31b5e893e0c822fe"
+    }
+  ]
+}
